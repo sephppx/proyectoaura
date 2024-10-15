@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/files/css/formulariopro.css">
+    </head>
+    <body>
+
+        <section>
+            <div class="nav">
+                <ul>
+                    <li>
+                        <a href="/">
+                            <span class="icono"><ion-icon name="aperture-outline"></ion-icon></span>
+                            <span class="titulo">Aura's</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/Admin">
+                            <span class="icono"><ion-icon name="home-outline"></ion-icon></span>
+                            <span class="titulo">Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/Adminperfiles">
+                            <span class="icono"><ion-icon name="people-outline"></ion-icon></span>
+                            <span class="titulo">Perfiles</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/Adminprod">
+                            <span class="icono"><ion-icon name="cart-outline"></ion-icon></span>
+                            <span class="titulo">Productos</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <span class="icono"><ion-icon name="information-circle-outline"></ion-icon></span>
+                            <span class="titulo">Ayuda</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <span class="icono"><ion-icon name="settings-outline"></ion-icon></span>
+                            <span class="titulo">Ajustes</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/login">
+                            <span class="icono"><ion-icon name="log-out-outline"></ion-icon></span>
+                            <span class="titulo">Cerrar Sesion</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="container">
+                <div class="topbar">
+                    <div class="toggle">
+                        <ion-icon name="menu"></ion-icon>
+                    </div> 
+                
+                    <div class="buscar">
+                        <label>
+                            <input type="text" placeholder="Buscar..." name="" id="">
+                            <ion-icon name="search"></ion-icon>
+                        </label>
+                    </div>
+                    <div class="perfil-usuario">
+                        <img src="/files/img/IMG/Sample_User_Icon.png" alt="">
+                    </div>
+                </div>
+
+                <div class="detalles">
+                    <div class="ordenes-recientes">
+                        <div class="header">
+                            <h2>Nuevo Producto</h2>
+                            <a href="/Adminprod" class="boton">Atras</a>
+                        </div>
+                        <section class="form-product">
+                        
+                            <label for="id_producto">ID del Producto</label>
+                            <input class="controls" type="text" name="id_producto" id="id_producto" placeholder="Ingrese ID del Producto">
+                            
+                            <label for="nombre_producto">Nombre del Producto</label>
+                            <input class="controls" type="text" name="nombre_producto" id="nombre_producto" placeholder="Ingrese Nombre del Producto">
+                            
+                            <label for="stock">Stock</label>
+                            <input class="controls" type="number" name="stock" id="stock" placeholder="Ingrese el Stock">
+                            
+                            <label for="precio">Precio (CLP)</label>
+                                <div class="input-container">
+                                    <input class="controls money-input" type="number" name="precio" id="precio" placeholder="0" step="1" min="0">
+                                </div>
+
+                            <label for="imagen-url">Imagen URL</label>
+                            <input type="url" name="imagen-url" id="imagen-url" value="https://example.com/imagen.jpg" placeholder="Ingrese la URL de la imagen" required>
+
+                            <label for="fecha">Agregar Producto</label>
+                            <input class="botons" type="submit" value="Agregar Producto">
+                        </section>
+                    </div>
+                </div>  
+            </div>    
+        </section>
+
+        <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+    </body>
+</html>

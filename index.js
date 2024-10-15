@@ -35,6 +35,14 @@ app.get('/Adminperfiles', (req, res) => {
   res.render('Adminperfiles');
 });
 
+app.get('/formularioedit', (req, res) => {
+  res.render('formularioedit');
+});
+
+app.get('/formulariopro', (req, res) => {
+  res.render('formulariopro');
+});
+
 app.get('/checkout', (req, res) => {
   res.render('checkout');
 });

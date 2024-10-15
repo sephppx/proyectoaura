@@ -1,0 +1,401 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap');
+
+:root{
+
+    --white: #fff6ff;
+    --purple: #2BE2BF; 
+    --dark-rose: #8bebd9;  
+    --black: #221824;  
+    --font: 'Raleway' , sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: var(--font);
+}
+
+body{
+    background: var(--black);
+    overflow-x: hidden;
+}
+
+section{
+    position: relative;
+    width: 100%;
+}
+
+/* NAVBAR */
+
+.nav{
+    position: fixed;
+    width: 300px;
+    height: 100%;
+    background: var(--purple);
+    border-left: 10px solid var(--purple);
+    overflow: hidden;
+    transition: 0.4s;
+}
+
+.nav ul {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+.nav li {
+    position: relative;
+    width: 200%;
+    list-style: none;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.nav ul li:hover {
+    background: var(--white);
+
+}
+
+.nav ul li:nth-child(1){
+    margin-bottom: 40px;
+    pointer-events: none;
+}
+
+.nav ul li a {
+    position: relative;
+    display: flex;
+    width: 100%;
+    color: var(--black);
+    text-decoration: none;
+}
+
+.nav ul li a:hover {
+    color: var(--purple);
+}
+
+.nav ul li a .icono {
+    position: relative;
+    display: block;
+    min-width: 60px;
+    height: 60px;
+    line-height: 75px;
+    text-align: center;
+}
+
+.nav ul li a .icono ion-icon {
+    font-size: 1.75em;
+}
+
+.nav ul li a .titulo {
+    position: relative;
+    display: block;
+    padding: 0 10px;
+    height: 60px;
+    line-height: 60px;
+    text-align: start;
+    white-space: nowrap;
+}
+
+/* Dashboard */
+
+.container  {
+    position: absolute;
+    width: calc(100% - 300px);
+    left: 300px;
+    min-height: 100vh;
+    background: var(--white);
+    transition: 0.4s;
+}
+
+/* Topbar */
+
+.container .topbar {
+    width: 100%;
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+}
+
+.container .topbar .toggle {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.5em;
+    cursor: pointer;
+}
+
+.container .topbar .buscar {
+    position: relative;
+    width: 400px;
+    margin: 0 10px;
+}
+
+.container .topbar .buscar label{
+    position: relative;
+    width: 100%;
+}
+
+.container .topbar .buscar label input {
+    width: 100%;
+    height: 40px;
+    border-radius: 40px;
+    padding: 5px 20px;
+    padding-left: 35px;
+    font-size: 1em;
+    outline: none;
+    border: 1px solid var(--dark-rose);
+}
+
+.container .topbar .buscar label ion-icon {
+    position: absolute;
+    top: 0;
+    left: 10px;
+    font-size: 1.2em;
+}
+
+.container .topbar .perfil-usuario {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.container .topbar .perfil-usuario img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Detalle */
+
+.detalles {
+    position: relative;
+    width: 100%;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 2fr 0fr;
+    grid-gap: 30px;
+    margin-top: 10px;
+}
+
+.detalles .ordenes-recientes {
+    position: relative;
+    display: grid;  
+    min-height: 500px;
+    background: var(--white);
+    padding: 20px;
+    box-shadow:  0 7px 25px rgba(0, 0, 0, 0.08);
+    border-radius: 20px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.header h2 {
+    font-weight: 700;
+    color: var(--purple);
+}
+
+.boton {
+    position: relative;
+    padding: 5px 10px;
+    background: var(--purple);
+    text-decoration: none;
+    color: var(--white);
+    border-radius: 5px;
+}
+
+.detalles .ordenes-recientes .form-product {
+    margin-top: 10px; /* Ajusta el valor según sea necesario */
+}
+
+.detalles .ordenes-recientes .form-product input.controls {
+    display: inline-block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 10px; 
+    box-sizing: border-box;
+}
+
+.detalles .ordenes-recientes .form-product label {
+    display: block;
+    width: 100%; 
+    color: black;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.detalles .ordenes-recientes .form-product input[type="url"] {
+    display: inline-block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 10px; 
+    box-sizing: border-box;
+    font-size: 1em; /* Ajusta el tamaño de la fuente si es necesario */
+}
+
+.detalles .ordenes-recientes .form-product input[type="url"]:focus {
+    outline: none;
+    border-color: var(--purple); /* Cambia el color del borde al hacer foco */
+}
+
+.detalles .ordenes-recientes .form-product label[for="imagen-url"] {
+    display: block;
+    width: 100%; 
+    color: black;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.detalles .ordenes-recientes .form-product input.botons {
+    width: 100%; 
+    padding: 12px;
+    background-color: var(--white);
+    color: var(--purple); 
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 10px;
+    font-size: 1.1em;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease; 
+}
+
+.detalles .ordenes-recientes .form-product input.botons:hover {
+    background-color: var(--purple); 
+    color: var(--white); 
+    border: 2px solid var(--purple); 
+}
+
+
+.detalles .ordenes-recientes .form-product input.botons:active {
+    background-color: var(--purple); 
+    color: var(--black); 
+    border: 2px solid var(--purple);  
+}
+
+/* Responsive */
+
+@media only screen and (max-width: 1200px) {
+    .detalles {
+        grid-template-columns: 1fr; 
+    }
+}
+
+@media only screen and (max-width: 992px) {
+    .nav{
+        left: -300px;
+    }
+
+    .nav.active {
+        left: 0;
+        width: 300px;
+    }
+
+    .container{
+        width: 100%;
+        left: 0;
+    }
+
+    .container.active {
+        left: 300px;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .detalles { 
+        grid-template-columns: 1fr 0fr;
+    }
+
+    .ordenes-recientes {
+        overflow: auto;
+    }
+
+    .estatus.en-progeso{
+        white-space: nowrap;
+    }
+
+    .detalles {
+        grid-template-columns: 1fr; 
+        grid-gap: 15px; 
+        padding: 15px;
+        margin-top: 5px;
+    }
+
+    .detalles .ordenes-recientes {
+        overflow-x: auto; 
+        min-width: 100%;
+    }
+    
+}
+
+@media only screen and (max-width: 468px) {
+    .nav {
+        width: 100%;
+        left: -100%;
+        z-index: 1000;
+    }
+
+    .nav.active {
+        width: 100%;
+        left: 0;
+    }
+
+    .container.active .toggle{
+        color: var(--white);
+    }
+
+    .toggle {
+        position: fixed;
+        left: initial;
+        right: 0;
+        z-index: 10000;
+    }
+
+    .cards {
+        grid-template-columns: repeat(1,1fr);
+    }
+
+    .perfil-usuario {
+        min-width: 40px;
+    }
+
+    .header h2 {
+        font-size: 1.2em;
+    }
+
+    .detalles {
+        grid-template-columns: 1fr; 
+        padding: 10px;
+        grid-gap: 10px; 
+    }
+
+    .detalles .ordenes-recientes {
+        width: 100%;
+        padding: 10px;
+        overflow-x: auto;
+    }
+
+    .detalles .ordenes-recientes table {
+        width: 100%; 
+    }
+}
