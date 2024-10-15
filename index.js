@@ -1,10 +1,11 @@
 import { neon } from '@neondatabase/serverless';
 import express from 'express';
 import { engine } from 'express-handlebars';
+import dotenv from 'dotenv';
 
-const sql = neon(
-  'postgresql://neondb_owner:Dfy0UQ5AbXFz@ep-round-flower-a5vvz40f.us-east-2.aws.neon.tech/neondb?sslmode=require'
-);
+dotenv.config();
+
+const sql = neon(process.env.DATABASE_URL);
 
 const app = express();
 
