@@ -1,0 +1,219 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --primary-color: #2BE2BF;
+    --background-color: #FFF6F4;
+    --dark-color: #151515;
+}
+
+html {
+    font-size: 62.5%;
+    font-family: 'Poppins', sans-serif;
+}
+
+a {
+    text-decoration: none;
+}
+
+.checkoutLayout {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 35px;
+    padding: 15px;
+}
+
+.container-logo {
+    display: flex;
+    justify-content: space-between; /* Distribuir logo a la izquierda y logo-aura a la derecha */
+    align-items: center;
+	margin-bottom: 5px;
+}
+
+.logo-aura {
+    font-size: 1.8rem; /* Ajustar el tamaño de fuente de logo-aura */
+    font-weight: bold;
+}
+
+.logo a {
+    font-size: 1.8rem; /* Ajustar el tamaño de fuente del enlace logo */
+}
+
+
+.checkoutLayout .right {
+    background-color: #fff;
+    border-radius: 20px;
+    padding: 40px;
+    color: #000;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.checkoutLayout .right {
+    margin-top: 10px; /* Reducir el margen superior para que esté más cerca de listP */
+    padding: 40px;
+    background-color: var(--primary-color);
+    border-radius: 20px;
+}
+
+
+.checkoutLayout .right .form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    border-bottom: 1px solid #fff;
+    padding-bottom: 20px;
+}
+
+.checkoutLayout .form h1,
+.checkoutLayout .form .group:nth-child(-n+3) {
+    grid-column-start: 1;
+    grid-column-end: 3;
+}
+
+.checkoutLayout .form input,
+.checkoutLayout .form select {
+    width: 100%;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    border-radius: 20px;
+    margin-top: 10px;
+    border: none;
+    background-color: #fff;
+    color: #000;
+}
+
+.checkoutLayout .right .return .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.checkoutLayout .right .return .row div:nth-child(2) {
+    font-weight: bold;
+    font-size: x-large;
+}
+
+.buttonCheckout {
+    width: 100%;
+    height: 40px;
+    border: none;
+    border-radius: 20px;
+    background-color: #49d8b9;
+    margin-top: 20px;
+    font-weight: bold;
+    color: #000;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.buttonCheckout:hover {
+    background-color: #000;
+    color: #fff;
+}
+
+.checkoutLayout .returnCart h1 {
+    border-top: none; /* Eliminar la línea superior */
+    padding: 20px 0;
+    align-items: center;
+}
+
+.container-logo, .listP {
+    background-color: #fff6ff;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Similar a .right */
+}
+
+.listP {
+    margin-top: 10px; /* Reducir el espacio entre listP y right */
+    margin-bottom: 20px; /* Mantener separación con los elementos siguientes */
+    background-color: #fff6ff;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+
+.listP .h {
+	align-items: center;
+}
+
+.listP {
+    display: grid;
+    gap: 30px;
+}
+
+.listP .item {
+    display: grid;
+    grid-template-columns: auto 1fr auto auto;
+    align-items: center;
+    gap: 20px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 20px;
+}
+
+.listP .item img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.listP .item .info {
+    font-size: 1.6rem;
+}
+
+.listP .item .quantity {
+    font-size: 1.6rem;
+    font-weight: bold;
+}
+
+.listP .item .returnPrice {
+    font-size: 1.6rem;
+    font-weight: bold;
+}
+
+@media (max-width: 768px) {
+    .checkoutLayout {
+        grid-template-columns: 1fr; /* Una sola columna */
+    }
+
+    .checkoutLayout .form {
+        grid-template-columns: 1fr; /* Formularios en una sola columna */
+    }
+
+    .logo-aura {
+        margin-left: 0; /* Centrar el logo en pantallas pequeñas */
+        text-align: center;
+        display: block;
+    }
+
+    .listP .item {
+        grid-template-columns: 1fr auto; /* Productos en dos columnas, imagen y detalles en una fila */
+    }
+
+    .listP .item img {
+        width: 80px;
+        height: 80px;
+    }
+}
+
+@media (max-width: 468px) {
+    .checkoutLayout {
+        padding: 10px; /* Menos padding en pantallas pequeñas */
+    }
+
+    .checkoutLayout .right {
+        padding: 20px;
+    }
+
+    .checkoutLayout .form input,
+    .checkoutLayout .form select {
+        padding: 8px 15px; /* Menos padding para inputs y selects */
+    }
+
+    .buttonCheckout {
+        height: 35px;
+        font-size: 1.4rem;
+    }
+}
+

@@ -1,0 +1,316 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap');
+
+:root{
+
+    --white: #fff6ff;
+    --purple: #2BE2BF; 
+    --dark-rose: #8bebd9;  
+    --black: #221824;  
+    --font: 'Raleway' , sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: var(--font);
+}
+
+body{
+    background: var(--black);
+    overflow-x: hidden;
+}
+
+section{
+    position: relative;
+    width: 100%;
+}
+
+/* NAVBAR */
+
+.nav{
+    position: fixed;
+    width: 300px;
+    height: 100%;
+    background: var(--purple);
+    border-left: 10px solid var(--purple);
+    overflow: hidden;
+    transition: 0.4s;
+}
+
+.nav ul {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+.nav li {
+    position: relative;
+    width: 200%;
+    list-style: none;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.nav ul li:hover {
+    background: var(--white);
+
+}
+
+.nav ul li:nth-child(1){
+    margin-bottom: 40px;
+    pointer-events: none;
+}
+
+.nav ul li a {
+    position: relative;
+    display: flex;
+    width: 100%;
+    color: var(--black);
+    text-decoration: none;
+}
+
+.nav ul li a:hover {
+    color: var(--purple);
+}
+
+.nav ul li a .icono {
+    position: relative;
+    display: block;
+    min-width: 60px;
+    height: 60px;
+    line-height: 75px;
+    text-align: center;
+}
+
+.nav ul li a .icono ion-icon {
+    font-size: 1.75em;
+}
+
+.nav ul li a .titulo {
+    position: relative;
+    display: block;
+    padding: 0 10px;
+    height: 60px;
+    line-height: 60px;
+    text-align: start;
+    white-space: nowrap;
+}
+
+/* Dashboard */
+
+.container  {
+    position: absolute;
+    width: calc(100% - 300px);
+    left: 300px;
+    min-height: 100vh;
+    background: var(--white);
+    transition: 0.4s;
+}
+
+/* Topbar */
+
+.container .topbar {
+    width: 100%;
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+}
+
+.container .topbar .toggle {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.5em;
+    cursor: pointer;
+}
+
+.container .topbar .buscar {
+    position: relative;
+    width: 400px;
+    margin: 0 10px;
+}
+
+.container .topbar .buscar label{
+    position: relative;
+    width: 100%;
+}
+
+.container .topbar .buscar label input {
+    width: 100%;
+    height: 40px;
+    border-radius: 40px;
+    padding: 5px 20px;
+    padding-left: 35px;
+    font-size: 1em;
+    outline: none;
+    border: 1px solid var(--dark-rose);
+}
+
+.container .topbar .buscar label ion-icon {
+    position: absolute;
+    top: 0;
+    left: 10px;
+    font-size: 1.2em;
+}
+
+.container .topbar .perfil-usuario {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.container .topbar .perfil-usuario img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.header {
+    margin-top: 15px; /* Espacio adicional entre la barra de búsqueda y el header */
+    padding: 10px; /* Espacio interno adicional en el header */
+    text-align: left; /* Centra el texto del header */
+    background-color: var(--white); /* Fondo blanco para destacar el header */
+}
+
+.header h2 {
+    font-size: 2em; /* Aumenta el tamaño del texto del header */
+    color: var(--black); /* Color del texto */
+    margin: 10px 0; /* Espacio vertical dentro del header */
+}
+
+/* Cards */
+
+.cards {
+    position: relative;
+    width: 100%;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 30px;
+}
+
+.cards .card {
+    position: relative;
+    background: var(--white);
+    padding: 40px;
+    box-shadow: 0 7px 2px rgba(0, 0, 0, 0.08);
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.4s;
+    text-align: center;
+    height: 350px; 
+    width: 100%;
+}
+
+.cards .card:hover {
+    background: var(--purple);
+}
+
+.cards .card .card-icono {
+    font-size: 6em; 
+    color: var(--dark-rose);
+    margin-bottom: 20px; 
+}
+
+.cards .card .card-nombre {
+    color: var(--dark-rose);
+    font-size: 1.5em;
+}
+
+.cards .card:hover .card-nombre,
+.cards .card:hover .card-icono {
+    color: var(--white);
+}
+
+/* Responsive */
+
+@media only screen and (max-width: 1200px) {
+    .cards {
+        grid-template-columns: repeat(2, 1fr); 
+    } 
+ }
+ 
+ @media only screen and (max-width: 992px) {
+     .nav {
+         left: -300px;
+     }
+ 
+     .nav.active {
+         left: 0;
+         width: 300px;
+     } 
+ 
+     .container {
+         width: 100%;
+         left: 0; 
+     }
+ 
+     .container.active {
+         left: 300px; 
+     }
+ 
+     .container .topbar .buscar {
+         width: 300px; 
+     }
+ }
+ 
+ @media only screen and (max-width: 768px) {
+    .cards {
+        grid-template-columns: repeat(1, 1fr); 
+        grid-gap: 20px; 
+    }
+
+    .container .topbar {
+        flex-direction: row; 
+    }
+
+    .container .topbar .buscar {
+        flex-grow: 1;
+        max-width: 100%; 
+        text-align: center;
+    }
+
+    .container .topbar .perfil-usuario {
+        margin-left: 0; 
+    }
+
+    .header {
+        text-align: center;
+    }
+ }
+ 
+ @media only screen and (max-width: 468px) {
+    .container .topbar {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .container .topbar .toggle,
+    .container .topbar .perfil-usuario {
+        margin: 0;
+    }
+
+    .container .topbar .buscar {
+        order: 2;
+        width: 100%; 
+        text-align: center;
+    }
+ }

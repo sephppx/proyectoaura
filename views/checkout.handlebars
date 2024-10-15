@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura's Checkout</title>
+    <link rel="stylesheet" href="/files/css/checkout.css">
+</head>
+<body>
+    
+<div class="container">
+
+    <div class="checkoutLayout">
+
+        <div class="returnCart">
+            <div class="container-logo">
+				<h1 class="logo"><a href="/">Seguir Comprando</a></h1>
+                <span class="logo-aura">AURA'S</span>
+			</div>
+
+            <div class="listP">
+                <h1 class="h">Productos del Carro</h1>
+                <div class="item">
+                    <img src="/files/img/Vinilos/Happier That Ever.jpg" alt="">
+                    <div class="info">
+                        <div class="name">Happier That Ever - Billie Eilish</div>
+                        <div class="price">$42.000</div>
+                    </div>
+                    <div class="quantity">1</div>
+                    <div class="returnPrice">$42.000</div>
+                </div>
+                <div class="item">
+                    <img src="/files/img/Vinilos/Gabriel.jpg" alt="">
+                    <div class="info">
+                        <div class="name">Gabriel - Keshi</div>
+                        <div class="price">$41.000</div>
+                    </div>
+                    <div class="quantity">1</div>
+                    <div class="returnPrice">$41.000</div>
+                </div>
+
+            </div>
+                
+        </div>
+
+        <div class="right">
+            <h1>Checkout</h1>
+
+            <div class="form">
+                <div class="group">
+                    <label for="name">Nombre Completo</label>
+                    <input type="text" name="name" id="name">
+                </div>
+    
+                <div class="group">
+                    <label for="phone">Numero de Celular</label>
+                    <input type="text" name="phone" id="phone">
+                </div>
+    
+                <div class="group">
+                    <label for="address">Direccion</label>
+                    <input type="text" name="address" id="address">
+                </div>
+    
+                <div class="group">
+                    <label for="country">Region</label>
+                    <select name="country" id="country">
+                        <option value="">Choose..</option>
+                        <option value="">Arica y Parinacota</option>
+						<option value="">Tarapaca</option>
+						<option value="">Antofagasta</option>
+						<option value="">Atacama</option>
+						<option value="">Coquimbo</option>
+						<option value="">Valparaiso</option>
+						<option value="">Metropolitana</option>
+						<option value="">Libertador Bernardo O'higgins</option>
+						<option value="">Maule</option>
+						<option value="">Ñuble</option>
+						<option value="">BioBio</option>
+						<option value="">Araucania</option>
+						<option value="">Los Rios</option>
+						<option value="">Los Lagos</option>
+						<option value="">Aysen</option>
+						<option value="">Magallanes y Antartica</option>    
+                    </select>
+                </div>
+    
+                <div class="group">
+                    <label for="city">Ciudad</label>
+                    <select name="city" id="city">
+                        <option value="">Choose..</option>
+                        <option value="">Santiago</option>
+                    </select>
+                </div>
+            </div>
+                <div class="return">
+                    <div class="row">
+                    <div>Cantidad Total</div>
+                    <div class="totalQuantity">2</div>
+                    </div>
+                    <div class="row">
+                    <div>Precio Total</div>
+                    <div class="totalPrice">$83.000</div>
+                    </div>
+                </div>
+                <button class="buttonCheckout">Pagar</button>
+        </div>
+    </div>
+
+
+        <script src="checkout.js"></script>
+
+    </body>
+</html>
