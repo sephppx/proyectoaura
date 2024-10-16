@@ -5,12 +5,15 @@ import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 import cookieParser from 'cookie-parser';
 import bcrypt from 'bcrypt';
+import pkg from 'jsonwebtoken';
+
 
 dotenv.config();
 
 const sql = neon(process.env.DATABASE_URL);
 const CLAVE_SECRETA = process.env.CLAVE_SECRETA;
 const AUTH_COOKIE_NAME = process.env.AUTH_COOKIE_NAME;
+const { verify } = pkg;
 
 const app = express();
 
@@ -25,8 +28,7 @@ app.set('views', './views');
 app.use('/files', express.static('public'));
 
 // Pagina Main
-app.get('/', (req, res) => {
-  console.log('Renderizando la página de inicio');
+app.get('/', async (req, res) => {
   res.render('home');
 });
 
@@ -60,12 +62,13 @@ app.get('/checkout', (req, res) => {
 
 // Login - Register
 app.get('/login', (req, res) => {
-  const message = req.query.message;
-  res.render('login', { message });
+  const error = req.query.error;
+  res.render('login', { error });
 });
 
 app.get('/register', (req, res) => {
-  res.render('register');
+  const error = req.query.error;
+  res.render('register', { error });
 });
 
 // Lista de pedidos 
@@ -85,10 +88,8 @@ app.post('/login', async (req, res) => {
 
   const query = 'SELECT id, password FROM users WHERE email = $1';
   const results = await sql(query, [email]);
-
-
   if (results.length === 0) {
-    return res.render('login', { message: "Correo o contraseña incorrectos." });
+    return res.render('login', { error: "Usuario no registrado." });
   }
 
   const id = results[0].id;
@@ -104,9 +105,9 @@ app.post('/login', async (req, res) => {
     res.cookie(AUTH_COOKIE_NAME, token, { maxAge: 60 * 5 * 1000 });
     res.redirect(302, '/');
     return;
-  } 
+  }
 
-  res.redirect('/login');
+  res.redirect('/login?error=Correo o contraseña incorrectos.');
 });
 
 app.post('/register', async (req, res) => {
@@ -131,8 +132,7 @@ app.post('/register', async (req, res) => {
     
     const results = await sql(query, [name, email, hash]);
     const id = results[0].id;
-
-    
+   
     const fiveMinutesFromNowInSeconds = Math.floor(Date.now() / 1000) + 5 * 60;
     const token = jwt.sign({ id, exp: fiveMinutesFromNowInSeconds }, CLAVE_SECRETA);
 
@@ -146,7 +146,7 @@ app.post('/register', async (req, res) => {
 
 app.get('/logout', (req, res) => {
   res.cookie(AUTH_COOKIE_NAME, '', { maxAge: 1 });
-  res.send('deslogeao');
+  res.render('login');
 });
 
 app.listen(3000, () => console.log('Servidor encendido en el puerto 3000'));
