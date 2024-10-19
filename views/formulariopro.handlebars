@@ -73,34 +73,35 @@
                 </div>
 
                 <div class="detalles">
-                    <div class="ordenes-recientes">
-                        <div class="header">
-                            <h2>Nuevo Producto</h2>
-                            <a href="/Adminprod" class="boton">Atras</a>
+                    <form action="/formulariopro" method="POST">
+                        <div class="ordenes-recientes">
+                            <div class="header">
+                                <h2>Nuevo Producto</h2>
+                                <a href="/Adminprod" class="boton">Atras</a>
+                            </div>
+                            <section class="form-product">
+                            
+                                <label for="nombre_producto">Nombre del Producto</label>
+                                <input class="controls" type="text" name="nombre" id="nombre_producto" placeholder="Ingrese Nombre del Producto">
+
+                                
+                                <label for="stock">Stock</label>
+                                <input class="controls" type="number" name="stock" id="stock" placeholder="Ingrese el Stock">
+                                
+                                <label for="precio">Precio (CLP)</label>
+                                    <div class="input-container">
+                                        <input class="controls money-input" type="number" name="precio" id="precio" placeholder="0" step="1" min="0">
+                                    </div>
+
+                                <label for="imagen-url">Imagen URL</label>
+                                <input type="url" name="imagen_url" id="imagen-url" value="https://example.com/imagen.jpg" placeholder="Ingrese la URL de la imagen" required>
+
+
+                                <label for="fecha">Agregar Producto</label>
+                                <input class="botons" type="submit" value="Agregar Producto">
+                            </section>
                         </div>
-                        <section class="form-product">
-                        
-                            <label for="id_producto">ID del Producto</label>
-                            <input class="controls" type="text" name="id_producto" id="id_producto" placeholder="Ingrese ID del Producto">
-                            
-                            <label for="nombre_producto">Nombre del Producto</label>
-                            <input class="controls" type="text" name="nombre_producto" id="nombre_producto" placeholder="Ingrese Nombre del Producto">
-                            
-                            <label for="stock">Stock</label>
-                            <input class="controls" type="number" name="stock" id="stock" placeholder="Ingrese el Stock">
-                            
-                            <label for="precio">Precio (CLP)</label>
-                                <div class="input-container">
-                                    <input class="controls money-input" type="number" name="precio" id="precio" placeholder="0" step="1" min="0">
-                                </div>
-
-                            <label for="imagen-url">Imagen URL</label>
-                            <input type="url" name="imagen-url" id="imagen-url" value="https://example.com/imagen.jpg" placeholder="Ingrese la URL de la imagen" required>
-
-                            <label for="fecha">Agregar Producto</label>
-                            <input class="botons" type="submit" value="Agregar Producto">
-                        </section>
-                    </div>
+                    </form>
                 </div>  
             </div>    
         </section>

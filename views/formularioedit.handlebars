@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="/files/ccs/formularioedit.css">
+        <link rel="stylesheet" href="/files/css/formularioedit.css">
     </head>
     <body>
 
@@ -79,25 +79,28 @@
                             <a href="/Adminprod" class="boton">Atras</a>
                         </div>
                         <section class="form-product">
-                            <label for="id_producto">ID del Producto</label>
-                            <input class="controls" type="text" name="id_producto" id="id_producto" value="001" placeholder="Ingrese ID del Producto">
-                            
-                            <label for="nombre_producto">Nombre del Producto</label>
-                            <input class="controls" type="text" name="nombre_producto" id="nombre_producto" value="Gabriel - Keshi" placeholder="Ingrese Nombre del Producto">
-                            
-                            <label for="stock">Stock</label>
-                            <input class="controls" type="number" name="stock" id="stock" value="22" placeholder="Ingrese el Stock">
-                        
-                            <label for="precio">Precio (CLP)</label>
-                            <div class="input-container">
-                                <input class="controls money-input" type="number" name="precio" id="precio" value="41000" placeholder="0" step="1" min="0">
-                            </div>
+                            <form action="/formularioedit" method="POST">
+                                <label for="id_producto">ID del Producto</label>
+                                <input class="controls" type="text" name="id" id="id_producto" value="{{this.id}}" placeholder="Ingrese ID del Producto" readonly>
 
-                            <label for="imagen-url">Imagen URL</label>
-                            <input type="url" name="imagen-url" id="imagen-url" value="https://gw2.com/imagen.jpg" placeholder="Ingrese la URL de la imagen" required>
-                        
-                            <label for="fecha">Editar</label>
-                            <input class="botons" type="submit" value="Modificar">
+                                <label for="nombre_producto">Nombre del Producto</label>
+                                <input class="controls" type="text" name="nombre" id="nombre_producto" value="{{this.nombre}}" placeholder="Ingrese Nombre del Producto" readonly>
+
+                                <label for="stock">Stock</label>
+                                <input class="controls" type="number" name="stock" id="stock_producto" value="{{producto.stock}}" placeholder="Ingrese el Stock">
+
+                                <label for="precio">Precio (CLP)</label>
+                                <div class="input-container">
+                                    <input class="controls money-input" type="number" name="precio" id="precio_producto" value="{{producto.precio}}" placeholder="0" step="1" min="0">
+                                </div>
+
+                                <label for="imagen-url">Imagen URL</label>
+                                <input type="url" name="imagen_url" id="imagen-url_producto" value="{{producto.imagen_url}}" placeholder="Ingrese la URL de la imagen" required>
+
+                                <label for="fecha">Editar</label>
+                                <input class="botons" type="submit" value="Modificar">
+
+                            </form>
                         </section>                        
                     </div>
                 </div>  

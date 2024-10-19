@@ -1,154 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewpoint" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="/files/css/Adminpro.css">
-    </head>
-    <body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/files/css/Adminpro.css">
+</head>
+<body>
+    <section>
+        <div class="nav">
+            <ul>
+                <li>
+                    <a href="/">
+                        <span class="icono"><ion-icon name="aperture-outline"></ion-icon></span>
+                        <span class="titulo">Aura's</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/Admin">
+                        <span class="icono"><ion-icon name="home-outline"></ion-icon></span>
+                        <span class="titulo">Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/Adminperfiles">
+                        <span class="icono"><ion-icon name="people-outline"></ion-icon></span>
+                        <span class="titulo">Perfiles</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/Adminprod">
+                        <span class="icono"><ion-icon name="cart-outline"></ion-icon></span>
+                        <span class="titulo">Productos</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="icono"><ion-icon name="information-circle-outline"></ion-icon></span>
+                        <span class="titulo">Ayuda</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="icono"><ion-icon name="settings-outline"></ion-icon></span>
+                        <span class="titulo">Ajustes</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/login">
+                        <span class="icono"><ion-icon name="log-out-outline"></ion-icon></span>
+                        <span class="titulo">Cerrar Sesion</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
 
-        <section>
-            <div class="nav">
-
-                <ul>
-                    <li>
-                        <a href="/">
-                            <span class="icono"><ion-icon name="aperture-outline"></ion-icon></span>
-                            <span class="titulo">Aura's</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/Admin">
-                            <span class="icono"><ion-icon name="home-outline"></ion-icon></span>
-                            <span class="titulo">Dashboard</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/Adminperfiles">
-                            <span class="icono"><ion-icon name="people-outline"></ion-icon></span>
-                            <span class="titulo">Perfiles</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/Adminprod">
-                            <span class="icono"><ion-icon name="cart-outline"></ion-icon></span>
-                            <span class="titulo">Productos</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <span class="icono"><ion-icon name="information-circle-outline"></ion-icon></span>
-                            <span class="titulo">Ayuda</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <span class="icono"><ion-icon name="settings-outline"></ion-icon></span>
-                            <span class="titulo">Ajustes</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/login">
-                            <span class="icono"><ion-icon name="log-out-outline"></ion-icon></span>
-                            <span class="titulo">Cerrar Sesion</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            
-            <div class="container">
-                <div class="topbar">
-                    <div class="toggle">
-                        <ion-icon name="menu"></ion-icon>
-                    </div> 
-                
-                    <div class="buscar">
-                        <label for="">
-                            <input type="text" placeholder="Buscar..." name="" id="">
-                            <ion-icon name="search"></ion-icon>
-                        </label>
-                    </div>
-                    <div class="perfil-usuario">
-                        <img src="/files/img/IMG/Sample_User_Icon.png" alt="">
-                    </div>
+        <div class="container">
+            <div class="topbar">
+                <div class="toggle">
+                    <ion-icon name="menu"></ion-icon>
                 </div>
 
-                <div class="detalles">
-                    <div class="ordenes-recientes">
-                        <div class="header">
-                            <h2>Productos</h2>
-                            <a href="/formulariopro" class="boton">Añadir Producto</a>
-                        </div>
-                        <table>
-                            <thead>
-                                <th>Codigo</th>
-                                <th>Stock</th>
-                                <th>Nombre</th>
-                                <th>Precio</th>
-                                <th>Editar</th>
-                                <th>Eliminar</th>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>#001</td>   
-                                    <td>22</td>
-                                    <td>Gabriel - Keshi</td> 
-                                    <td>$41.000</td>
-                                    <td><a href="/formularioedit"><button class="estatus pendiente">Editar</button></a></td>
-                                    <td><a href="#"><button class="estatus devuelto">Eliminar</button></a></td>
-                                </tr>
-                                <tr>
-                                    <td>#002</td>
-                                    <td>12</td>
-                                    <td>Justice - Justin Bieber</td>
-                                    <td>$41.000</td>
-                                    <td><a href="/formularioedit"><button class="estatus pendiente">Editar</button></a></td>
-                                    <td><a href="#"><button class="estatus devuelto">Eliminar</button></a></td>
-                                </tr>
-                                <tr>
-                                    <td>#003</td>
-                                    <td>11</td>
-                                    <td>Dont Smile At Me - Billie Eilish</td>
-                                    <td>$28.990</td>
-                                    <td><a href="/formularioedit"><button class="estatus pendiente">Editar</button></a></td>
-                                    <td><a href="#"><button class="estatus devuelto">Eliminar</button></a></td>
-                                </tr>
-                                <tr>
-                                    <td>#004</td>
-                                    <td>13</td>
-                                    <td>Hollywood's Bleeding - Post Malone</td>
-                                    <td>$42.990</td>
-                                    <td><a href="/formularioedit"><button class="estatus pendiente">Editar</button></a></td>
-                                    <td><a href="#"><button class="estatus devuelto">Eliminar</button></a></td>
-                                </tr>
-                                <tr>
-                                    <td>#005</td>
-                                    <td>15</td>
-                                    <td>Utopia - Travis Scott</td>
-                                    <td>$50.000</td>
-                                    <td><a href="/formularioedit"><button class="estatus pendiente">Editar</button></a></td>
-                                    <td><a href="#"><button class="estatus devuelto">Eliminar</button></a></td>
-                                </tr>
-                                <tr>
-                                    <td>#006</td>
-                                    <td>30</td>
-                                    <td>american dream - 21 Savage</td>
-                                    <td>$50.000</td>
-                                    <td><a href="/formularioedit"><button class="estatus pendiente">Editar</button></a></td>
-                                    <td><a href="#"><button class="estatus devuelto">Eliminar</button></a></td> 
-                                </tr>
-                            </tbody>
-                        </table>
+                <div class="buscar">
+                    <label for="">
+                        <input type="text" placeholder="Buscar..." name="" id="">
+                        <ion-icon name="search"></ion-icon>
+                    </label>
+                </div>
+                <div class="perfil-usuario">
+                    <img src="/files/img/IMG/Sample_User_Icon.png" alt="">
+                </div>
+            </div>
+
+            <div class="detalles">
+                <div class="ordenes-recientes">
+                    <div class="header">
+                        <h2>Productos</h2>
+                        <a href="/formulariopro" class="boton">Añadir Producto</a>
                     </div>
-                </div>  
-            </div>    
-        </section>
+                    <table>
+                        <thead>
+                            <th>Código</th>
+                            <th>Nombre</th>
+                            <th>Stock</th>
+                            <th>Precio</th>
+                            <th>Editar</th>
+                            <th>Eliminar</th>
+                        </thead>
+                        <tbody>
+                            {{#each productos}}
+                                <tr>
+                                    <td>#{{this.id}}</td>
+                                    <td>{{this.nombre}}</td>
+                                    <td>{{this.stock}}</td>
+                                    <td>${{this.precio}}</td>
+                                    <td><a href="/formularioedit?id={{this.id}}"><button class="estatus pendiente">Editar</button></a></td>
+                                    <td><a href="/Adminprod?id={{this.id}}"><button class="estatus devuelto">Eliminar</button></a></td>
+                                </tr>
+                            {{else}}
+                                <tr>
+                                    <td colspan="6">No hay productos disponibles.</td>
+                                </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-
-        <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-
-
-    </body>
-
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</body>
 </html>
