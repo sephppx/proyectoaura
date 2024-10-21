@@ -120,7 +120,7 @@ app.get('/register', (req, res) => {
 app.get('/recibos', auth, (req, res) => {
   try {
     console.log("User-Recibos: ", req.user);
-    res.render('recibos', { name: req.user.name });
+    res.render('recibos', { name: req.user.name, monto: req.user.monto });
 } catch (error) {
     console.error(error);
     return res.redirect('/login');
@@ -130,20 +130,12 @@ app.get('/recibos', auth, (req, res) => {
 // Wallet
 app.get('/wallet', auth, async (req, res) => {
   try {
-    const userId = req.user.id; // Obtener el ID del usuario
-    const query = 'SELECT monto FROM wallet WHERE user_id = $1';
-    const results = await sql(query, [userId]);
-
-    if (results.length === 0) {
-      return res.render('wallet', { error: "No tienes una wallet creada." });
-    }
-
-    const saldo = results[0].monto; // Obtener el saldo
-    res.render('wallet', { saldo, name: req.user.name });
-  } catch (error) {
-    console.error("Error al obtener el saldo:", error);
-    res.render('wallet', { error: "Error al cargar el saldo." });
-  }
+    console.log("User-Wallets: ", req.user);
+    res.render('wallet', { name: req.user.name, monto: req.user.monto });
+} catch (error) {
+    console.error(error);
+    return res.redirect('/login');
+}
 });
 
 app.post('/login', async (req, res) => {
@@ -278,7 +270,7 @@ app.post('/eliminarpro', async (req, res) => {
   }
 });
 
-app.post('/Adminprod', async (req, res) => {
+app.post('/Adminprod', auth, async (req, res) => {
   const productoId = req.body.id; // Obtener el ID del producto desde el formulario
   try {
     const query = 'DELETE FROM productos WHERE id = $1';
@@ -294,14 +286,36 @@ app.post('/wallet/add', auth, async (req, res) => {
   const userId = req.user.id;
   const { amount } = req.body;
 
+  // Validar la cantidad ingresada
   if (!amount || amount <= 0) {
     return res.render('wallet', { error: "Por favor, ingresa una cantidad válida." });
   }
 
   try {
-    const query = 'UPDATE wallet SET monto = monto + $1 WHERE user_id = $2';
-    await sql(query, [amount, userId]); // Actualizar el saldo
-    res.redirect('/wallet'); // Redirigir a la página de wallet
+    const query = 'UPDATE wallet SET monto = monto + $1 WHERE user_id = $2 RETURNING monto';
+    const result = await sql(query, [amount, userId]); 
+
+   
+    console.log("Resultado de la consulta:", result); 
+
+    
+    if (!result || result.length === 0) {
+      return res.render('wallet', { error: "No se encontró la wallet del usuario." });
+    }
+
+    
+    const newAmount = result[0].monto;
+
+   
+    const updatedToken = jwt.sign(
+      { id: req.user.id, name: req.user.name, role: req.user.role, monto: newAmount, exp: req.user.exp },
+      CLAVE_SECRETA
+    );
+
+    
+    res.cookie(AUTH_COOKIE_NAME, updatedToken, { maxAge: 60 * 5 * 1000 }); 
+
+    res.redirect('/wallet'); 
   } catch (error) {
     console.error("Error al agregar dinero:", error);
     res.render('wallet', { error: "Error al agregar dinero." });
