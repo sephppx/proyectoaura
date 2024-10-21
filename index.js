@@ -33,24 +33,12 @@ app.use('/files', express.static('public'));
 // Pagina Main
 app.get('/', auth, async (req, res) => {
   try {
-      const userId = req.user.id; 
-      const query = 'SELECT monto FROM wallet WHERE user_id = $1';
-      const results = await sql(query, [userId]); 
-
-      
-      if (results.length === 0) {
-        console.error("No se encontró la wallet para el usuario.");
-        return res.render('home', { name: req.user.name, monto: 0 }); 
-      }
-
-      const monto = results[0].monto;
-
-      console.log("User-PaginaMain: ", req.user, monto);
-      res.render('home', { name: req.user.name, monto});
-  } catch (error) {
-      console.error(error);
-      return res.redirect('/login');
-  }
+    console.log("User-PaginaMain: ", req.user);
+    res.render('home', { name: req.user.name, monto: req.user.monto });
+} catch (error) {
+    console.error(error);
+    return res.redirect('/login');
+}
 });
 
 // Admin - Admin_Perfiles - Admin_Productos
@@ -174,9 +162,18 @@ app.post('/login', async (req, res) => {
   const role = results[0].role;
 
   if (bcrypt.compareSync(password, hash)) {
+
+    const walletQuery = 'SELECT monto FROM wallet WHERE user_id = $1';
+    const walletResults = await sql(walletQuery, [id]);
+    if (walletResults.length === 0) {
+      return res.render('login', { error: "No se encontró una wallet asociada." });
+    }
+
+    const monto = walletResults[0].monto;
+
     const fiveMinutesFromNowInSeconds = Math.floor(Date.now() / 1000) + 5 * 60;
     const token = jwt.sign(
-      { id, name, role, exp: fiveMinutesFromNowInSeconds },
+      { id, name, role, monto, exp: fiveMinutesFromNowInSeconds },
       CLAVE_SECRETA
     );
 
