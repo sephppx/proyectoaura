@@ -46,7 +46,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="/login">
+                    <a href="/logout">
                         <span class="icono"><ion-icon name="log-out-outline"></ion-icon></span>
                         <span class="titulo">Cerrar Sesion</span>
                     </a>
@@ -94,7 +94,7 @@
                                     <td>{{this.stock}}</td>
                                     <td>${{this.precio}}</td>
                                     <td><a href="/formularioedit?id={{this.id}}"><button class="estatus pendiente">Editar</button></a></td>
-                                    <td><a href="/Adminprod?id={{this.id}}"><button class="estatus devuelto">Eliminar</button></a></td>
+                                    <td><a href="/eliminarpro?id={{this.id}}"><button class="estatus devuelto">Eliminar</button></a></td>
                                 </tr>
                             {{else}}
                                 <tr>

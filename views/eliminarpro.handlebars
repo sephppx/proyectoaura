@@ -2,17 +2,16 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <meta name="viewpoint" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="/files/css/adminper.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/files/css/eliminarpro.css">
     </head>
     <body>
 
         <section>
             <div class="nav">
-
                 <ul>
                     <li>
-                        <a href="#">
+                        <a href="/">
                             <span class="icono"><ion-icon name="aperture-outline"></ion-icon></span>
                             <span class="titulo">Aura's</span>
                         </a>
@@ -48,7 +47,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="/logout">
+                        <a href="/login">
                             <span class="icono"><ion-icon name="log-out-outline"></ion-icon></span>
                             <span class="titulo">Cerrar Sesion</span>
                         </a>
@@ -63,7 +62,7 @@
                     </div> 
                 
                     <div class="buscar">
-                        <label for="">
+                        <label>
                             <input type="text" placeholder="Buscar..." name="" id="">
                             <ion-icon name="search"></ion-icon>
                         </label>
@@ -73,41 +72,29 @@
                     </div>
                 </div>
 
-                <div class="header">
-                    <h2>Perfiles</h2>
-                </div>
+                <div class="detalles">
+                    <form action="/eliminarpro" method="POST">
+                        <div class="ordenes-recientes">
+                            <div class="header">
+                                <h2>Eliminar Producto</h2>
+                            </div>
 
-                <div class="cards">
-                    <div class="card">
-                        <div class="card-icono">
-                            <ion-icon name="person"></ion-icon>
+                            <div class="botones">
+                                <h2>¿Desea eliminar el producto?</h2>
+                                <input type="hidden" name="producto_id" value="{{producto_id}}">
+                                <div class="botones-container">
+                                    <button type="submit" class="boton-si">Sí</button>
+                                    <a href="/Adminprod" class="boton-no">No</a>
+                                </div>
+                            </div>
+
                         </div>
-                        <div>
-                            <span class="card-nombre">Admin 1</span>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-icono">
-                            <ion-icon name="person"></ion-icon>
-                        </div>
-                        <div>
-                            <span class="card-nombre">Admin 2</span>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-icono">
-                            <ion-icon name="person"></ion-icon>
-                        </div>
-                        <div>
-                            <span class="card-nombre">Admin 3</span>
-                        </div>
-                    </div>
-                </div> 
+                    </form>
+                </div>  
             </div>    
         </section>
 
         <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-
         <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
     </body>

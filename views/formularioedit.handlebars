@@ -71,7 +71,6 @@
                         <img src="/files/img/IMG/Sample_User_Icon.png" alt="">
                     </div>
                 </div>
-
                 <div class="detalles">
                     <div class="ordenes-recientes">
                         <div class="header">
@@ -79,19 +78,19 @@
                             <a href="/Adminprod" class="boton">Atras</a>
                         </div>
                         <section class="form-product">
-                            <form action="/formularioedit" method="POST">
-                                <label for="id_producto">ID del Producto</label>
-                                <input class="controls" type="text" name="id" id="id_producto" value="{{this.id}}" placeholder="Ingrese ID del Producto" readonly>
+                            <form action="/formularioedit/producto/{{producto.id}}" method="POST">
+                                {{!-- <label for="id_producto">ID del Producto</label> --}}
+                                {{!-- <input class="controls" type="text" name="id" id="id_producto" value="{{this.id}}" placeholder="Ingrese ID del Producto" readonly> --}}
 
                                 <label for="nombre_producto">Nombre del Producto</label>
-                                <input class="controls" type="text" name="nombre" id="nombre_producto" value="{{this.nombre}}" placeholder="Ingrese Nombre del Producto" readonly>
+                                <input class="controls" type="text" name="nombre" id="nombre_producto" value="{{producto.nombre}}" placeholder="Ingrese Nombre del Producto" readonly>
 
                                 <label for="stock">Stock</label>
-                                <input class="controls" type="number" name="stock" id="stock_producto" value="{{producto.stock}}" placeholder="Ingrese el Stock">
+                                <input class="controls" type="number" name="stock" id="stock_producto" value="{{producto.stock}}" min="1" placeholder="Ingrese el Stock">
 
                                 <label for="precio">Precio (CLP)</label>
                                 <div class="input-container">
-                                    <input class="controls money-input" type="number" name="precio" id="precio_producto" value="{{producto.precio}}" placeholder="0" step="1" min="0">
+                                    <input class="controls money-input" type="number" name="precio" id="precio_producto" value="{{producto.precio}}" min="1" placeholder="0" step="1" min="0">
                                 </div>
 
                                 <label for="imagen-url">Imagen URL</label>

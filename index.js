@@ -6,13 +6,16 @@ import jwt from 'jsonwebtoken';
 import cookieParser from 'cookie-parser';
 import bcrypt from 'bcrypt';
 import pkg from 'jsonwebtoken';
+import { auth, adminMiddleware } from './middlewares/auth.js';
+import path from 'path';
+
 
 
 dotenv.config();
 
 const sql = neon(process.env.DATABASE_URL);
-const CLAVE_SECRETA = process.env.CLAVE_SECRETA;
-const AUTH_COOKIE_NAME = process.env.AUTH_COOKIE_NAME;
+export const CLAVE_SECRETA = process.env.CLAVE_SECRETA;
+export const AUTH_COOKIE_NAME = process.env.AUTH_COOKIE_NAME;
 const { verify } = pkg;
 
 const app = express();
@@ -28,18 +31,36 @@ app.set('views', './views');
 app.use('/files', express.static('public'));
 
 // Pagina Main
-app.get('/', async (req, res) => {
-  res.render('home');
+app.get('/', auth, async (req, res) => {
+  try {
+      const userId = req.user.id; 
+      const query = 'SELECT monto FROM wallet WHERE user_id = $1';
+      const results = await sql(query, [userId]); 
+
+      
+      if (results.length === 0) {
+        console.error("No se encontró la wallet para el usuario.");
+        return res.render('home', { name: req.user.name, monto: 0 }); 
+      }
+
+      const monto = results[0].monto;
+
+      console.log("User-PaginaMain: ", req.user, monto);
+      res.render('home', { name: req.user.name, monto});
+  } catch (error) {
+      console.error(error);
+      return res.redirect('/login');
+  }
 });
 
 // Admin - Admin_Perfiles - Admin_Productos
-app.get('/Admin', (req, res) => {
-  res.render('Admin');
+app.get('/Admin', auth, adminMiddleware, (req, res) => {
+  res.render('Admin', { isAdmin: true, userName: req.user.name });
 });
 
 app.get('/Adminprod', async (req, res) => {
   try {
-    const query = 'SELECT * FROM productos';
+    const query = 'SELECT * FROM productos ORDER BY id ASC';
     const results = await sql(query);
 
     res.render('Adminprod', { productos: results });
@@ -78,8 +99,17 @@ app.get('/formularioedit', async (req, res) => {
 });
 
 
-app.get('/formulariopro', (req, res) => {
+app.get('/formulariopro', async (req, res) => {
   res.render('formulariopro');
+});
+
+// Eliminar Producto
+app.get('/eliminarpro', async (req, res) => {
+  const id = req.query.id; // Obtener el ID del producto de la URL
+  if (!id) {
+      return res.status(400).send('ID de producto no proporcionado');
+  }
+  res.render('eliminarpro', { producto_id: id }); // Pasar el id a la vista
 });
 
 // Checkout
@@ -99,21 +129,40 @@ app.get('/register', (req, res) => {
 });
 
 // Lista de pedidos 
-app.get('/recibos', (req, res) => {
-  const error = req.query.error;
-  res.render('recibos', { error });
+app.get('/recibos', auth, (req, res) => {
+  try {
+    console.log("User-Recibos: ", req.user);
+    res.render('recibos', { name: req.user.name });
+} catch (error) {
+    console.error(error);
+    return res.redirect('/login');
+}
 });
 
 // Wallet
-app.get('/wallet', (req, res) => {
-  res.render('wallet');
+app.get('/wallet', auth, async (req, res) => {
+  try {
+    const userId = req.user.id; // Obtener el ID del usuario
+    const query = 'SELECT monto FROM wallet WHERE user_id = $1';
+    const results = await sql(query, [userId]);
+
+    if (results.length === 0) {
+      return res.render('wallet', { error: "No tienes una wallet creada." });
+    }
+
+    const saldo = results[0].monto; // Obtener el saldo
+    res.render('wallet', { saldo, name: req.user.name });
+  } catch (error) {
+    console.error("Error al obtener el saldo:", error);
+    res.render('wallet', { error: "Error al cargar el saldo." });
+  }
 });
 
 app.post('/login', async (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
 
-  const query = 'SELECT id, password FROM users WHERE email = $1';
+  const query = 'SELECT id, password, name, role FROM users WHERE email = $1';
   const results = await sql(query, [email]);
   if (results.length === 0) {
     return res.render('login', { error: "Usuario no registrado." });
@@ -121,11 +170,13 @@ app.post('/login', async (req, res) => {
 
   const id = results[0].id;
   const hash = results[0].password;
+  const name = results[0].name;
+  const role = results[0].role;
 
   if (bcrypt.compareSync(password, hash)) {
     const fiveMinutesFromNowInSeconds = Math.floor(Date.now() / 1000) + 5 * 60;
     const token = jwt.sign(
-      { id, exp: fiveMinutesFromNowInSeconds },
+      { id, name, role, exp: fiveMinutesFromNowInSeconds },
       CLAVE_SECRETA
     );
 
@@ -159,13 +210,16 @@ app.post('/register', async (req, res) => {
     
     const results = await sql(query, [name, email, hash]);
     const id = results[0].id;
+
+    const walletQuery = 'INSERT INTO wallet (user_id, monto) VALUES ($1, $2)';
+    await sql(walletQuery, [id, 100000.00]);
    
     const fiveMinutesFromNowInSeconds = Math.floor(Date.now() / 1000) + 5 * 60;
     const token = jwt.sign({ id, exp: fiveMinutesFromNowInSeconds }, CLAVE_SECRETA);
 
     
     res.cookie(AUTH_COOKIE_NAME, token, { maxAge: 60 * 5 * 1000 });
-    return res.redirect(302, '/'); 
+    return res.redirect(302, '/login'); 
   } catch (error) {
     return res.render('register', { error: "Hubo un problema al registrarse. Intenta nuevamente." });
   }
@@ -196,7 +250,36 @@ app.post('/formulariopro', async (req, res) => {
   }
 });
 
+app.post('/formularioedit/producto/:id', async(req, res) => {
+  const productId = req.params.id
+  const {nombre, stock, precio, imagen_url} = req.body
 
+  try {
+    await sql('UPDATE productos SET nombre = $1, stock=$2, precio=$3, imagen_url=$4 WHERE id=$5;', [nombre, stock, precio, imagen_url, productId])
+    return res.redirect('/Adminprod')
+
+  } catch(error){
+    console.log(error)
+    return res.send('HUBO UN ERROR')
+  }
+
+})
+
+app.post('/eliminarpro', async (req, res) => {
+  const productoId = req.body.producto_id; // Obtener el ID del producto desde el formulario
+  if (!productoId) {
+      return res.status(400).send('ID de producto no proporcionado');
+  }
+
+  try {
+      const query = 'DELETE FROM productos WHERE id = $1';
+      await sql(query, [productoId]); // Eliminar el producto de la base de datos
+      res.redirect('/Adminprod'); // Redirigir a la lista de productos
+  } catch (error) {
+      console.error(error);
+      res.status(500).send('Error al eliminar el producto');
+  }
+});
 
 app.post('/Adminprod', async (req, res) => {
   const productoId = req.body.id; // Obtener el ID del producto desde el formulario
@@ -210,6 +293,23 @@ app.post('/Adminprod', async (req, res) => {
   }
 });
 
+app.post('/wallet/add', auth, async (req, res) => {
+  const userId = req.user.id;
+  const { amount } = req.body;
+
+  if (!amount || amount <= 0) {
+    return res.render('wallet', { error: "Por favor, ingresa una cantidad válida." });
+  }
+
+  try {
+    const query = 'UPDATE wallet SET monto = monto + $1 WHERE user_id = $2';
+    await sql(query, [amount, userId]); // Actualizar el saldo
+    res.redirect('/wallet'); // Redirigir a la página de wallet
+  } catch (error) {
+    console.error("Error al agregar dinero:", error);
+    res.render('wallet', { error: "Error al agregar dinero." });
+  }
+});
 
 app.get('/logout', (req, res) => {
   res.cookie(AUTH_COOKIE_NAME, '', { maxAge: 1 });
