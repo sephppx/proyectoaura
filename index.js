@@ -33,12 +33,19 @@ app.use('/files', express.static('public'));
 // Pagina Main
 app.get('/', auth, async (req, res) => {
   try {
-    console.log("User-PaginaMain: ", req.user);
-    res.render('home', { name: req.user.name, monto: req.user.monto });
-} catch (error) {
-    console.error(error);
-    return res.redirect('/login');
-}
+    const firstProductsQuery = 'SELECT id, nombre, precio, imagen_url FROM productos ORDER BY id ASC LIMIT 4';
+    const firstProducts = await sql(firstProductsQuery); // Obtener los primeros productos
+
+    // Consulta para obtener los productos
+    const query = 'SELECT id, nombre, precio, imagen_url FROM productos ORDER BY id ASC';
+    const productos = await sql(query); // Obtener los productos de la base de datos
+
+    // Pasar los productos a la vista home
+    res.render('home', { name: req.user.name, monto: req.user.monto, productos, firstProducts });
+  } catch (error) {
+    console.error("Error al cargar los productos:", error);
+    res.redirect('/login');
+  }
 });
 
 // Admin - Admin_Perfiles - Admin_Productos

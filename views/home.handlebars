@@ -128,132 +128,38 @@
             </div>
 
             <div class="container-products">
-                <div class="card-product">
-                    <div class="container-img">
-                        <img src="/files/img/Vinilos/Hollywood's Bleeding.jpg" alt="Hollywood's Bleeding" />
-                        <div class="button-group">
-                            <span>
-                                <i class="fa-regular fa-eye"></i>
-                            </span>
-                            <span>
-                                <i class="fa-regular fa-heart"></i>
-                            </span>
-                            <span>
-                                <i class="fa-solid fa-code-compare"></i>
-                            </span>
+                {{#each firstProducts}}
+                        <div class="card-product">
+                        <div class="container-img">
+                            <img src="{{this.imagen_url}}" alt="{{this.nombre}}" />
+                            <div class="button-group">
+                            <span><i class="fa-regular fa-eye"></i></span>
+                            <span><i class="fa-regular fa-heart"></i></span>
+                            <span><i class="fa-solid fa-code-compare"></i></span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="content-card-product">
-                        <div class="stars">
+                        <div class="content-card-product">
+                            <div class="stars">
                             <i class="fa-solid fa-star"></i>
                             <i class="fa-solid fa-star"></i>
                             <i class="fa-solid fa-star"></i>
                             <i class="fa-solid fa-star"></i>
                             <i class="fa-regular fa-star"></i>
-                        </div>
-                        <h3>Hollywood's Bleeding - Post Malone</h3>
-                        <span class="add-cart" onclick="addToCart(1)">
+                            </div>
+                            <h3>{{this.nombre}}</h3>
+                            <span class="add-cart" onclick="addToCart({{this.id}})">
                             <i class="fa-solid fa-basket-shopping" aria-hidden="true"></i>
-                        </span>
-                        <p class="price">$42.990</p>
-                    </div>
-                </div>
-                <div class="card-product">
-                    <div class="container-img">
-                        <img
-                            src="/files/img/Vinilos/1989.jpg"
-                            alt="1989"
-                        />
-                        <div class="button-group">
-                            <span>
-                                <i class="fa-regular fa-eye"></i>
                             </span>
-                            <span>
-                                <i class="fa-regular fa-heart"></i>
-                            </span>
-                            <span>
-                                <i class="fa-solid fa-code-compare"></i>
-                            </span>
+                            <p class="price">
+                            {{#if this.precio}}
+                                ${{this.precio}}
+                            {{else}}
+                                Agotado
+                            {{/if}}
+                            </p>
                         </div>
-                    </div>
-                    <div class="content-card-product">
-                        <div class="stars">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
                         </div>
-                        <h3>1989 - Taylor Swift</h3>
-                        <span class="add-cart" onclick="addToCart(2)">
-                            <i class="fa-solid fa-basket-shopping" aria-hidden="true"></i> 
-                        </span>
-                        <p class="price">$40.000</p>
-                    </div>
-                </div>
-                <div class="card-product">
-                    <div class="container-img">
-                        <img
-                            src="/files/img/Vinilos/Happier That Ever.jpg"
-                            alt="Happier That Ever"
-                        />
-                        <div class="button-group">
-                            <span>
-                                <i class="fa-regular fa-eye"></i>
-                            </span>
-                            <span>
-                                <i class="fa-regular fa-heart"></i>
-                            </span>
-                            <span>
-                                <i class="fa-solid fa-code-compare"></i>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="content-card-product">
-                        <div class="stars">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                        </div>
-                        <h3>Happier That Ever - Billie Eilish</h3>
-                        <span class="add-cart" onclick="addToCart(3)">
-                            <i class="fa-solid fa-basket-shopping" aria-hidden="true"></i>
-                        </span>
-                        <p class="price">$42.000</p>
-                    </div>
-                </div>
-                <div class="card-product">
-                    <div class="container-img">
-                        <img src="/files/img/Vinilos/Gabriel.jpg" alt="Gabriel" />
-                        <div class="button-group">
-                            <span>
-                                <i class="fa-regular fa-eye"></i>
-                            </span>
-                            <span>
-                                <i class="fa-regular fa-heart"></i>
-                            </span>
-                            <span>
-                                <i class="fa-solid fa-code-compare"></i>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="content-card-product">
-                        <div class="stars">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                        </div>
-                        <h3>Gabriel - Keshi</h3>
-                        <span class="add-cart" onclick="addToCart(4)">
-                            <i class="fa-solid fa-basket-shopping" aria-hidden="true"></i>
-                        </span>
-                        <p class="price">Agotado</p>
-                    </div>
-                </div>
+                    {{/each}}
             </div>
         </section>
 
@@ -284,260 +190,38 @@
         <section class="container top-products">
             <h1 class="heading-1">Vinilos</h1>
             <div class="container-products">
-                <div class="card-product">
+                {{#each productos}}
+                    <div class="card-product">
                     <div class="container-img">
-                        <img src="/files/img/Vinilos/gsc_128444641_5201166_1.jpg" alt="Utopia" />
+                        <img src="{{this.imagen_url}}" alt="{{this.nombre}}" />
                         <div class="button-group">
-                            <span>
-                                <i class="fa-regular fa-eye"></i>
-                            </span>
-                            <span>
-                                <i class="fa-regular fa-heart"></i>
-                            </span>
-                            <span>
-                                <i class="fa-solid fa-code-compare"></i>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="content-card-product">
-                        <div class="stars">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                        </div>
-                        <h3>Utopia - Travis Scoot</h3>
-                        <span class="add-cart" onclick="addToCart(5)">
-                            <i class="fa-solid fa-basket-shopping" aria-hidden="true"></i>
+                        <span>
+                            <i class="fa-regular fa-eye"></i>
                         </span>
-                        <p class="price">$50.000</p>
-                    </div>
-                </div>
-                <div class="card-product">
-                    <div class="container-img">
-                        <img
-                            src="/files/img/Vinilos/the-weeknd-after-hours-600x600.jpg"
-                            alt="After Hours"
-                        />
-                        <div class="button-group">
-                            <span>
-                                <i class="fa-regular fa-eye"></i>
-                            </span>
-                            <span>
-                                <i class="fa-regular fa-heart"></i>
-                            </span>
-                            <span>
-                                <i class="fa-solid fa-code-compare"></i>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="content-card-product">
-                        <div class="stars">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                        </div>
-                        <h3>After Hours - TheWeeknd</h3>
-                        <span class="add-cart" onclick="addToCart(6)">
-                            <i class="fa-solid fa-basket-shopping" aria-hidden="true"></i>
+                        <span>
+                            <i class="fa-regular fa-heart"></i>
                         </span>
-                        <p class="price">$35.000</p>
-                    </div>
-                </div>
-                <div class="card-product">
-                    <div class="container-img">
-                        <img
-                            src="/files/img/Vinilos/vinilojustice_1080x.jpg"
-                            alt="Justice"
-                        />
-                        <div class="button-group">
-                            <span>
-                                <i class="fa-regular fa-eye"></i>
-                            </span>
-                            <span>
-                                <i class="fa-regular fa-heart"></i>
-                            </span>
-                            <span>
-                                <i class="fa-solid fa-code-compare"></i>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="content-card-product">
-                        <div class="stars">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                        </div>
-                        <h3>Justice - Justin Bieber</h3>
-                        <span class="add-cart" onclick="addToCart(7)">
-                            <i class="fa-solid fa-basket-shopping" aria-hidden="true"></i>
+                        <span>
+                            <i class="fa-solid fa-code-compare"></i>
                         </span>
-                        <p class="price">$41.000</p>
-                    </div>
-                </div>
-                <div class="card-product">
-                    <div class="container-img">
-                        <img src="/files/img/Vinilos/kanye-west-graduation-60309902-vinyl-930678_2048x2048.jpg" alt="Graduation" />
-                        <div class="button-group">
-                            <span>
-                                <i class="fa-regular fa-eye"></i>
-                            </span>
-                            <span>
-                                <i class="fa-regular fa-heart"></i>
-                            </span>
-                            <span>
-                                <i class="fa-solid fa-code-compare"></i>
-                            </span>
                         </div>
                     </div>
                     <div class="content-card-product">
                         <div class="stars">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-regular fa-star"></i>
                         </div>
-                        <h3>Graduation - Kanye West</h3>
-                        <span class="add-cart" onclick="addToCart(8)">
-                            <i class="fa-solid fa-basket-shopping" aria-hidden="true"></i>
+                        <h3>{{this.nombre}}</h3>
+                        <span class="add-cart" onclick="addToCart({{this.id}})">
+                        <i class="fa-solid fa-basket-shopping" aria-hidden="true"></i>
                         </span>
-                        <p class="price">$55.000</p>
+                        <p class="controls money-input">${{this.precio}}</p>
                     </div>
-                </div>
-            </div>
-            <div class="container-products">
-                <div class="card-product">
-                    <div class="container-img">
-                        <img src="/files/img/Vinilos/Dont Smile At Me.jpg" alt="Dont Smile At Me" />
-                        <div class="button-group">
-                            <span>
-                                <i class="fa-regular fa-eye"></i>
-                            </span>
-                            <span>
-                                <i class="fa-regular fa-heart"></i>
-                            </span>
-                            <span>
-                                <i class="fa-solid fa-code-compare"></i>
-                            </span>
-                        </div>
                     </div>
-                    <div class="content-card-product">
-                        <div class="stars">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                        </div>
-                        <h3>Dont Smile At Me - Billie Eilish</h3>
-                        <span class="add-cart" onclick="addToCart(9)">
-                            <i class="fa-solid fa-basket-shopping" aria-hidden="true"></i>
-                        </span>
-                        <p class="price">$28.990</p>
-                    </div>
-                </div>
-                <div class="card-product">
-                    <div class="container-img">
-                        <img
-                            src="/files/img/Vinilos/thank_u_next.jpg"
-                            alt="Thank U, Next"
-                        />
-                        <div class="button-group">
-                            <span>
-                                <i class="fa-regular fa-eye"></i>
-                            </span>
-                            <span>
-                                <i class="fa-regular fa-heart"></i>
-                            </span>
-                            <span>
-                                <i class="fa-solid fa-code-compare"></i>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="content-card-product">
-                        <div class="stars">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                        </div>
-                        <h3>Thank U, Next - Ariana Grande</h3>
-                        <span class="add-cart" onclick="addToCart(10)">
-                            <i class="fa-solid fa-basket-shopping" aria-hidden="true"></i>
-                        </span>
-                        <p class="price">$42.000</p>
-                    </div>
-                </div>
-                <div class="card-product">
-                    <div class="container-img">
-                        <img
-                            src="/files/img/Vinilos/Bruno_Mars_-_Unorthdox_Jukebox_-_LP_-_Red_with_Black_Splatter_Vinyl_-_2024_Repress_641df749-2e54-4b60-b792-f8e9d00216a6_grande.jpg"
-                            alt="Unorthodox Jukebox.jpg"
-                        />
-                        <div class="button-group">
-                            <span>
-                                <i class="fa-regular fa-eye"></i>
-                            </span>
-                            <span>
-                                <i class="fa-regular fa-heart"></i>
-                            </span>
-                            <span>
-                                <i class="fa-solid fa-code-compare"></i>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="content-card-product">
-                        <div class="stars">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                        </div>
-                        <h3>Unorthodox Jukebox - Bruno Mars</h3>
-                        <span class="add-cart" onclick="addToCart(11)">
-                            <i class="fa-solid fa-basket-shopping" aria-hidden="true"></i>
-                        </span>
-                        <p class="price">$42.000</p>
-                    </div>
-                </div>
-                <div class="card-product">
-                    <div class="container-img">
-                        <img src="/files/img/Vinilos/Born This Way.jpg" alt="Born This Way" />
-                        <div class="button-group">
-                            <span>
-                                <i class="fa-regular fa-eye"></i>
-                            </span>
-                            <span>
-                                <i class="fa-regular fa-heart"></i>
-                            </span>
-                            <span>
-                                <i class="fa-solid fa-code-compare"></i>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="content-card-product">
-                        <div class="stars">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                        </div>
-                        <h3>Born This Way - Lady Gaga</h3>
-                        <span class="add-cart" onclick="addToCart(12)">
-                            <i class="fa-solid fa-basket-shopping" aria-hidden="true"></i>
-                        </span>    
-                        <p class="price">$30.000</p>
-                    </div>
-                </div>
+                {{/each}}
             </div>
         </section>
 
