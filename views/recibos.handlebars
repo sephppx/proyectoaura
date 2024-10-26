@@ -1,209 +1,166 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset = "UTF-8">
-        <title> Aura's </title>
-        <link rel="stylesheet" href="/files/css/recibos.css">
-    </head>
-    <body>
-        <header>
-			<div class="container-hero">
-				<div class="container hero">
-					<div class="customer-support">
-                        <img src="/files/img/IMG/Sample_User_Icon.png" width="35px">
-						<div class="content-customer-support">
-                            <span class="text">Hola, {{name}}</span>
-                            <span class="number">Wallet: ${{monto}}</span>
-                            <a href="/logout" class="logout-button">Cerrar sesión</a>
-                        </div>
-					</div>
-
-					<div class="container-logo">
-						<h1 class="logo"><a href="/">Aura's</a></h1>
-					</div>
-
-					<div class="iconCart" id="iconCart">
-                        <img src="/files/img/header/bolsa-de-la-compra.png" width="35px">
-                        <div class="totalQuantity" id="cartItemsTotal">0</div>
-                    </div>
-				</div>
-			</div>
-
-            <div class="cart">
-                <h2>
-                    Carrito
-                </h2>
-        
-                <div class="cart-list">
-                    <div id="items">
-                        <div id="cart-item1">
-                            <div class="cart-item-image"><img src="/files/img/Vinilos/Happier That Ever.jpg" height="150" width="150"/></div>
-                            <div class="cart-item-name">Producto 1</div>
-                            <div class="cart-item-price">$20.000</div>
-                        </div>
+<head>
+    <meta charset="UTF-8">
+    <title>Aura's</title>
+    <link rel="stylesheet" href="/files/css/recibos.css">
+</head>
+<body>
+    <header>
+        <div class="container-hero">
+            <div class="container hero">
+                <div class="customer-support">
+                    <img src="/files/img/IMG/Sample_User_Icon.png" width="35px">
+                    <div class="content-customer-support">
+                        <span class="text">Hola, {{name}}</span>
+                        <span class="number">Wallet: ${{monto}}</span>
+                        <a href="/logout" class="logout-button">Cerrar sesión</a>
                     </div>
                 </div>
 
-        
-                <div class="buttons">
-                    <div class="close">
-                        CLOSE
-                    </div>
-                    <div class="checkout">
-                        <a href="/checkout">CHECKOUT</a>
-                    </div>
+                <div class="container-logo">
+                    <h1 class="logo"><a href="/">Aura's</a></h1>
+                </div>
+
+                <div class="iconCart" id="iconCart">
+                    <img src="/files/img/header/bolsa-de-la-compra.png" width="35px">
+                    <div class="totalQuantity" id="cartItemsTotal">0</div>
                 </div>
             </div>
+        </div>
 
-			<div class="container-navbar">
-				<nav class="navbar container">
-                    <input type="checkbox" id="menu-toggle">
-                    <label for="menu-toggle" class="fas fa-bars"></label>
-                    <ul class="menu">
-                        <li><a href="/">Inicio</a></li>
-                        <li><a href="/checkout">Pagos</a></li>
-                        <li><a href="/recibos">Pedidos</a></li>
-                        <li><a href="/wallet">Wallet</a></li>
-                        <li><a href="/login">Login</a></li>
-                        <li><a href="/Admin">Admin</a></li>
-                    </ul>
+        <div class="container-navbar">
+            <nav class="navbar container">
+                <input type="checkbox" id="menu-toggle">
+                <label for="menu-toggle" class="fas fa-bars"></label>
+                <ul class="menu">
+                    <li><a href="/">Inicio</a></li>
+                    <li><a href="/checkout">Pagos</a></li>
+                    <li><a href="/recibos">Pedidos</a></li>
+                    <li><a href="/wallet">Wallet</a></li>
+                    <li><a href="/login">Login</a></li>
+                    <li><a href="/Admin">Admin</a></li>
+                </ul>
                 
-                    <form class="search-form">
-                        <input type="search" placeholder="Buscar..." />
-                        <button class="btn-search">
-                            <img src="/files/img/navbar/buscar.png" width="20px"/>
-                        </button>
-                    </form>
-                </nav>
-			</div>
-		</header>
+                <form class="search-form">
+                    <input type="search" placeholder="Buscar..." />
+                    <button class="btn-search">
+                        <img src="/files/img/navbar/buscar.png" width="20px"/>
+                    </button>
+                </form>
+            </nav>
+        </div>
+    </header>
 
-        <div class="purchaseReceipts">
+    <div class="purchaseReceipts">
+        <div class="returnCart">
+            <div class="container-pedido">
+                <h1 class="pedido"><a href="/">Pedidos</a></h1>
+            </div>
+            <h1>Lista de Pedidos</h1>
+            <div class="listP">
 
-            <div class="returnCart">
-                <div class="container-pedido">
-                    <h1 class="pedido"><a href="/">Pedidos</a></h1>
+                {{#if recibos.length}}
+                    {{#each recibos}}
+                        <div class="item">
+                            <!-- Usa una imagen genérica si no tienes una imagen específica para cada recibo -->
+                            <img src="https://w7.pngwing.com/pngs/225/984/png-transparent-computer-icons-shopping-cart-encapsulated-postscript-shopping-cart-angle-black-shopping.png" alt="Imagen de recibo">
+                            <div class="info">
+                                <div class="name">Pedido #{{this.id}}</div>
+                                <!-- Formatear la fecha si tienes un helper de fecha disponible -->
+                                <div class="price">{{this.fecha}}</div>
+                            </div>
+                            <div class="returnPrice">$ {{this.monto}}</div>
+                        </div>
+                    {{/each}}
+                {{else}}
+                    <p>No tienes recibos disponibles.</p>
+                {{/if}}
+
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container container-footer">
+            <div class="menu-footer">
+                <div class="contact-info">
+                    <p class="title-footer">Información de Contacto</p>
+                    <ul>
+                        <li>
+                            Dirección: Av. Ejercito libertador 441, Santiago, Region Metropolitana.
+                        </li>
+                        <li>Teléfono: 800 666 212</li>
+                        <li>Email: aurasvinyls@support.com</li>
+                    </ul>
+                    <div class="social-icons">
+                        <span class="facebook">
+                            <i class="fa-brands fa-facebook-f"></i>
+                        </span>
+                        <span class="twitter">
+                            <i class="fa-brands fa-twitter"></i>
+                        </span>
+                        <span class="youtube">
+                            <i class="fa-brands fa-youtube"></i>
+                        </span>
+                        <span class="pinterest">
+                            <i class="fa-brands fa-pinterest-p"></i>
+                        </span>
+                        <span class="instagram">
+                            <i class="fa-brands fa-instagram"></i>
+                        </span>
+                    </div>
                 </div>
-                <h1>Lista de Pedidos</h1>
-                <div class="listP">
 
-					<div class="item">
-						<img src="/files/img/Vinilos/Happier That Ever.jpg" alt="">
-						<div class="info">
-							<div class="name">Pedido #2326</div>
-							<div class="price">28.12.2024</div>
-						</div>
-						<div class="quantity">4</div>
-						<div class="returnPrice">$128.000</div>
-					</div>
-					<div class="item">
-						<img src="/files/img/Vinilos/Hollywood's Bleeding.jpg" alt="">
-						<div class="info">
-							<div class="name">Pedido #2349</div>
-							<div class="price">23.12.2024</div>
-						</div>
-						<div class="quantity">3</div>
-						<div class="returnPrice">$150.000</div>
-					</div>
-					<div class="item">
-						<img src="/files/img/Vinilos/Gabriel.jpg" alt="">
-						<div class="info">
-							<div class="name">Pedido #2121</div>
-							<div class="price">12.05.2024</div>
-						</div>
-						<div class="quantity">2</div>
-						<div class="returnPrice">$87.000</div>
-					</div>
-	
-				</div
-                    
+                <div class="information">
+                    <p class="title-footer">Información</p>
+                    <ul>
+                        <li><a href="#">Acerca de Nosotros</a></li>
+                        <li><a href="#">Información Delivery</a></li>
+                        <li><a href="#">Politicas de Privacidad</a></li>
+                        <li><a href="#">Términos y condiciones</a></li>
+                        <li><a href="#">Contactános</a></li>
+                    </ul>
+                </div>
+
+                <div class="my-account">
+                    <p class="title-footer">Mi cuenta</p>
+                    <ul>
+                        <li><a href="#">Mi cuenta</a></li>
+                        <li><a href="#">Historial de ordenes</a></li>
+                        <li><a href="#">Lista de deseos</a></li>
+                        <li><a href="#">Boletín</a></li>
+                        <li><a href="#">Reembolsos</a></li>
+                    </ul>
+                </div>
+
+                <div class="newsletter">
+                    <p class="title-footer">Boletín informativo</p>
+                    <div class="content">
+                        <p>
+                            Suscríbete a nuestras redes ahora y mantente al
+                            día con nuevas colecciones y ofertas exclusivas.
+                        </p>
+                        <input type="email" placeholder="Ingresa el correo aquí...">
+                        <button>Suscríbete</button>
+                    </div>
+                </div>
             </div>
 
-        <footer class="footer">
-			<div class="container container-footer">
-				<div class="menu-footer">
-					<div class="contact-info">
-						<p class="title-footer">Información de Contacto</p>
-						<ul>
-							<li>
-								Dirección: Av. Ejercito libertador 441, Santiago, Region Metropolitana.
-							</li>
-							<li>Teléfono: 800 666 212</li>
-							<li>Email: aurasvinyls@support.com</li>
-						</ul>
-						<div class="social-icons">
-							<span class="facebook">
-								<i class="fa-brands fa-facebook-f"></i>
-							</span>
-							<span class="twitter">
-								<i class="fa-brands fa-twitter"></i>
-							</span>
-							<span class="youtube">
-								<i class="fa-brands fa-youtube"></i>
-							</span>
-							<span class="pinterest">
-								<i class="fa-brands fa-pinterest-p"></i>
-							</span>
-							<span class="instagram">
-								<i class="fa-brands fa-instagram"></i>
-							</span>
-						</div>
-					</div>
+            <div class="copyright">
+                <p>
+                    Desarrollado por Estudiantes de la Universidad Diego Portales &copy; 2024
+                </p>
+                <img src="/files/img/content/tarjeta-de-credito.png" alt="Pagos">
+            </div>
+        </div>
+    </footer>
 
-					<div class="information">
-						<p class="title-footer">Información</p>
-						<ul>
-							<li><a href="#">Acerca de Nosotros</a></li>
-							<li><a href="#">Información Delivery</a></li>
-							<li><a href="#">Politicas de Privacidad</a></li>
-							<li><a href="#">Términos y condiciones</a></li>
-							<li><a href="#">Contactános</a></li>
-						</ul>
-					</div>
+    <script
+        src="https://kit.fontawesome.com/81581fb069.js"
+        crossorigin="anonymous"
+    ></script>
 
-					<div class="my-account">
-						<p class="title-footer">Mi cuenta</p>
-
-						<ul>
-							<li><a href="#">Mi cuenta</a></li>
-							<li><a href="#">Historial de ordenes</a></li>
-							<li><a href="#">Lista de deseos</a></li>
-							<li><a href="#">Boletín</a></li>
-							<li><a href="#">Reembolsos</a></li>
-
-						</ul>
-					</div>
-
-					<div class="newsletter">
-						<p class="title-footer">Boletín informativo</p>
-
-						<div class="content">
-							<p>
-								Suscríbete a nuestras redes ahora y mantente al
-								día con nuevas colecciones y ofertas exclusivas.
-							</p>
-							<input type="email" placeholder="Ingresa el correo aquí...">
-							<button>Suscríbete</button>
-						</div>
-					</div>
-				</div>
-
-				<div class="copyright">
-					<p>
-						Desarrollado por Estudiantes de la Universidad Diego Portales &copy; 2024
-					</p>
-
-					<img src="/files/img/content/tarjeta-de-credito.png" alt="Pagos">
-				</div>
-			</div>
-		</footer>
-
-        <script
-			src="https://kit.fontawesome.com/81581fb069.js"
-			crossorigin="anonymous"
-		></script>
-
-        <script src="index.js"></script>
-
-    </body>
+    <script src="index.js"></script>
+</body>
 </html>

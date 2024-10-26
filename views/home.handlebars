@@ -128,39 +128,44 @@
             </div>
 
             <div class="container-products">
-                {{#each firstProducts}}
-                        <div class="card-product">
-                        <div class="container-img">
-                            <img src="{{this.imagen_url}}" alt="{{this.nombre}}" />
-                            <div class="button-group">
-                            <span><i class="fa-regular fa-eye"></i></span>
-                            <span><i class="fa-regular fa-heart"></i></span>
-                            <span><i class="fa-solid fa-code-compare"></i></span>
-                            </div>
-                        </div>
-                        <div class="content-card-product">
-                            <div class="stars">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            </div>
-                            <h3>{{this.nombre}}</h3>
-                            <span class="add-cart" onclick="addToCart({{this.id}})">
-                            <i class="fa-solid fa-basket-shopping" aria-hidden="true"></i>
-                            </span>
-                            <p class="price">
-                            {{#if this.precio}}
-                                ${{this.precio}}
-                            {{else}}
-                                Agotado
-                            {{/if}}
-                            </p>
-                        </div>
-                        </div>
-                    {{/each}}
-            </div>
+  {{#each firstProducts}}
+  <div class="card-product">
+    <div class="container-img">
+      <img src="{{this.imagen_url}}" alt="{{this.nombre}}" />
+      <div class="button-group">
+        <span><i class="fa-regular fa-eye"></i></span>
+        <span><i class="fa-regular fa-heart"></i></span>
+        <span><i class="fa-solid fa-code-compare"></i></span>
+      </div>
+    </div>
+    <div class="content-card-product">
+      <div class="stars">
+        <i class="fa-solid fa-star"></i>
+        <i class="fa-solid fa-star"></i>
+        <i class="fa-solid fa-star"></i>
+        <i class="fa-solid fa-star"></i>
+        <i class="fa-regular fa-star"></i>
+      </div>
+      <h3>{{this.nombre}}</h3>
+      
+      <!-- Mostrar botón "Añadir al Carrito" solo si hay stock -->
+      <span class="add-cart" 
+            onclick="{{#if (eq this.stock 0)}}alert('Producto agotado'){{else}}addToCart({{this.id}}){{/if}}" 
+            {{#if (eq this.stock 0)}}style="pointer-events: none; opacity: 0.5;"{{/if}}>
+        <i class="fa-solid fa-basket-shopping" aria-hidden="true"></i>
+      </span>
+
+      <!-- Mostrar "Agotado" si el stock es 0, de lo contrario mostrar el precio -->
+      <p class="price">
+        {{#if (eq this.stock 0)}}
+          Agotado
+        {{else}}
+          ${{this.precio}}
+        {{/if}}
+      </p>
+    </div>
+  </div>
+{{/each}}
         </section>
 
         <section class="gallery">
@@ -191,37 +196,49 @@
             <h1 class="heading-1">Vinilos</h1>
             <div class="container-products">
                 {{#each productos}}
-                    <div class="card-product">
-                    <div class="container-img">
-                        <img src="{{this.imagen_url}}" alt="{{this.nombre}}" />
-                        <div class="button-group">
-                        <span>
-                            <i class="fa-regular fa-eye"></i>
-                        </span>
-                        <span>
-                            <i class="fa-regular fa-heart"></i>
-                        </span>
-                        <span>
-                            <i class="fa-solid fa-code-compare"></i>
-                        </span>
-                        </div>
-                    </div>
-                    <div class="content-card-product">
-                        <div class="stars">
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-regular fa-star"></i>
-                        </div>
-                        <h3>{{this.nombre}}</h3>
-                        <span class="add-cart" onclick="addToCart({{this.id}})">
-                        <i class="fa-solid fa-basket-shopping" aria-hidden="true"></i>
-                        </span>
-                        <p class="controls money-input">${{this.precio}}</p>
-                    </div>
-                    </div>
-                {{/each}}
+  <div class="card-product">
+    <div class="container-img">
+      <img src="{{this.imagen_url}}" alt="{{this.nombre}}" />
+      <div class="button-group">
+        <span>
+          <i class="fa-regular fa-eye"></i>
+        </span>
+        <span>
+          <i class="fa-regular fa-heart"></i>
+        </span>
+        <span>
+          <i class="fa-solid fa-code-compare"></i>
+        </span>
+      </div>
+    </div>
+    <div class="content-card-product">
+      <div class="stars">
+        <i class="fa-solid fa-star"></i>
+        <i class="fa-solid fa-star"></i>
+        <i class="fa-solid fa-star"></i>
+        <i class="fa-solid fa-star"></i>
+        <i class="fa-regular fa-star"></i>
+      </div>
+      <h3>{{this.nombre}}</h3>
+      
+      <!-- Mostrar botón "Añadir al Carrito" solo si hay stock -->
+      <span class="add-cart" 
+            onclick="{{#if (eq this.stock 0)}}alert('Producto agotado'){{else}}addToCart({{this.id}}){{/if}}" 
+            {{#if (eq this.stock 0)}}style="pointer-events: none; opacity: 0.5;"{{/if}}>
+        <i class="fa-solid fa-basket-shopping" aria-hidden="true"></i>
+      </span>
+
+      <!-- Mostrar "Agotado" si el stock es 0, de lo contrario mostrar el precio -->
+      <p class="controls money-input">
+        {{#if (eq this.stock 0)}}
+          Agotado
+        {{else}}
+          ${{this.precio}}
+        {{/if}}
+      </p>
+    </div>
+  </div>
+{{/each}}
             </div>
         </section>
 
@@ -313,6 +330,26 @@
 		></script>
 
         <script src="index.js"></script>
+
+        <script>
+  function addToCart(productId) {
+    fetch('/cart/add', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ productoId: productId })
+    })
+    .then(response => {
+      if (response.ok) {
+        alert("Producto añadido al carrito");
+      } else {
+        alert("Hubo un problema al añadir el producto al carrito, posiblemente esté agotado.");
+      }
+    })
+    .catch(error => console.error("Error:", error));
+  }
+</script>
 
     </body>
 </html>

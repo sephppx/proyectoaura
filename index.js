@@ -24,21 +24,27 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.engine('handlebars', engine());
+// Configuración de Handlebars con el helper 'eq'
+const hbs = engine({
+  helpers: {
+    eq: (a, b) => a === b, // Helper personalizado para comparar igualdad
+  },
+});
+
+app.engine('handlebars', hbs); // Utiliza el motor configurado con los helpers
 app.set('view engine', 'handlebars');
 app.set('views', './views');
 
 app.use('/files', express.static('public'));
 
-// Pagina Main
+//Página Main
 app.get('/', auth, async (req, res) => {
   try {
-    const firstProductsQuery = 'SELECT id, nombre, precio, imagen_url FROM productos ORDER BY id ASC LIMIT 4';
-    const firstProducts = await sql(firstProductsQuery); // Obtener los primeros productos
+    const firstProductsQuery = 'SELECT id, nombre, precio, imagen_url, stock FROM productos ORDER BY id ASC LIMIT 4';
+    const firstProducts = await sql(firstProductsQuery);
 
-    // Consulta para obtener los productos
-    const query = 'SELECT id, nombre, precio, imagen_url FROM productos ORDER BY id ASC';
-    const productos = await sql(query); // Obtener los productos de la base de datos
+    const query = 'SELECT id, nombre, precio, imagen_url, stock FROM productos ORDER BY id ASC';
+    const productos = await sql(query);
 
     // Pasar los productos a la vista home
     res.render('home', { name: req.user.name, monto: req.user.monto, productos, firstProducts });
@@ -47,6 +53,258 @@ app.get('/', auth, async (req, res) => {
     res.redirect('/login');
   }
 });
+
+// Función para obtener el carrito del usuario
+async function obtenerCarritoUsuario(userId) {
+  // Consulta para verificar si el usuario tiene un carrito activo
+  const carritoQuery = 'SELECT id FROM carritos WHERE user_id = $1 ORDER BY fecha DESC LIMIT 1';
+  const carritoExistente = await sql(carritoQuery, [userId]);
+
+  if (carritoExistente.length > 0) {
+    return carritoExistente[0].id;
+  } else {
+    // Crear un nuevo carrito si no existe uno
+    const nuevoCarritoQuery = 'INSERT INTO carritos (user_id) VALUES ($1) RETURNING id';
+    const nuevoCarrito = await sql(nuevoCarritoQuery, [userId]);
+    return nuevoCarrito[0].id;
+  }
+}
+
+// Endpoint para añadir un producto al carrito
+app.post('/cart/add', auth, async (req, res) => {
+  const productoId = req.body.productoId;
+  const userId = req.user.id;
+  const carritoId = await obtenerCarritoUsuario(userId);
+
+  try {
+    // Verificar el stock del producto
+    const productoQuery = 'SELECT stock FROM productos WHERE id = $1';
+    const producto = await sql(productoQuery, [productoId]);
+
+    if (producto.length === 0 || producto[0].stock <= 0) {
+      // Si no hay stock, enviar un mensaje de error
+      return res.status(400).json({ error: 'Producto sin stock disponible' });
+    }
+
+    // Verificar si el producto ya está en el carrito
+    const productoEnCarritoQuery = 'SELECT cantidad FROM carrito_productos WHERE carrito_id = $1 AND producto_id = $2';
+    const productoExistente = await sql(productoEnCarritoQuery, [carritoId, productoId]);
+
+    if (productoExistente.length > 0) {
+      // Si el producto ya existe, actualizar la cantidad
+      const nuevaCantidad = productoExistente[0].cantidad + 1;
+      const actualizarCantidadQuery = 'UPDATE carrito_productos SET cantidad = $1 WHERE carrito_id = $2 AND producto_id = $3';
+      await sql(actualizarCantidadQuery, [nuevaCantidad, carritoId, productoId]);
+    } else {
+      // Si el producto no existe, insertarlo con cantidad 1
+      const agregarProductoQuery = 'INSERT INTO carrito_productos (carrito_id, producto_id, cantidad) VALUES ($1, $2, 1)';
+      await sql(agregarProductoQuery, [carritoId, productoId]);
+    }
+
+    // Obtener la información actualizada del carrito
+    const productosCarritoQuery = `
+      SELECT p.id, p.nombre, p.precio, p.imagen_url, cp.cantidad, (p.precio * cp.cantidad) AS total_producto
+      FROM carrito_productos cp
+      JOIN productos p ON cp.producto_id = p.id
+      WHERE cp.carrito_id = $1
+    `;
+    const productosCarrito = await sql(productosCarritoQuery, [carritoId]);
+    const totalPrice = productosCarrito.reduce((total, item) => total + item.total_producto, 0);
+
+    // Responder con los datos del carrito actualizados
+    res.json({ productosCarrito, totalPrice });
+  } catch (error) {
+    console.error("Error al agregar producto al carrito:", error);
+    res.status(500).json({ error: 'Error al agregar producto al carrito' });
+  }
+});
+
+// Eliminar producto del carrito
+app.post('/checkout/remove/:id', auth, async (req, res) => {
+  const productoId = req.params.id; // Obtener el ID del producto desde los parámetros de la URL
+  const userId = req.user.id;
+  const carritoId = await obtenerCarritoUsuario(userId); // Obtener el carrito activo del usuario
+
+  try {
+    // Verificar si el producto está en el carrito
+    const productoEnCarritoQuery = 'SELECT * FROM carrito_productos WHERE carrito_id = $1 AND producto_id = $2';
+    const productoExistente = await sql(productoEnCarritoQuery, [carritoId, productoId]);
+
+    if (productoExistente.length > 0) {
+      // Eliminar el producto del carrito
+      const eliminarProductoQuery = 'DELETE FROM carrito_productos WHERE carrito_id = $1 AND producto_id = $2';
+      await sql(eliminarProductoQuery, [carritoId, productoId]);
+    }
+
+    res.redirect('/checkout'); // Redirigir a la página de checkout después de eliminar el producto
+  } catch (error) {
+    console.error("Error al eliminar producto del carrito:", error);
+    res.status(500).send('Error al eliminar producto del carrito');
+  }
+});
+
+
+// Checkout
+app.get('/checkout', auth, async (req, res) => {
+  const userId = req.user.id;
+  const carritoId = await obtenerCarritoUsuario(userId);
+
+  try {
+      const productosCarritoQuery = `
+          SELECT p.id, p.nombre, p.precio, p.imagen_url, cp.cantidad, (p.precio * cp.cantidad) AS total_producto
+          FROM carrito_productos cp
+          JOIN productos p ON cp.producto_id = p.id
+          WHERE cp.carrito_id = $1
+      `;
+      const productosCarrito = await sql(productosCarritoQuery, [carritoId]);
+      console.log(productosCarrito); // Confirmar que imagen_url está presente
+
+      const totalPrice = productosCarrito.reduce((total, item) => total + item.total_producto, 0);
+
+      res.render('checkout', { productosCarrito, totalPrice });
+  } catch (error) {
+      console.error("Error al cargar el carrito:", error);
+      res.status(500).send('Error al cargar el carrito');
+  }
+});
+
+function addToCart(productId) {
+  fetch('/cart/add', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ productoId: productId })
+  })
+  .then(response => {
+    if (!response.ok) {
+      // Si la respuesta no es OK, mostrar un mensaje de error
+      return response.json().then(data => {
+        alert(data.error || "No se pudo agregar el producto al carrito");
+        throw new Error(data.error);
+      });
+    }
+    return response.json();
+  })
+  .then(data => {
+    // Actualizar la vista del carrito con la información actualizada
+    updateCartView(data.productosCarrito, data.totalPrice);
+  })
+  .catch(error => console.error("Error al agregar producto al carrito:", error));
+}
+
+function payCart() {
+  fetch('/cart/pay', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+      }
+  })
+  .then(function(response) {
+      if (response.ok) {
+          alert("Compra realizada con éxito");
+          // Redirigir a la página de checkout con un mensaje de éxito
+          res.redirect('/checkout?success=COMPRA REALIZADA');
+
+      } else {
+          alert("No se pudo realizar la compra, saldo insuficiente o stock insuficiente.");
+      }
+  })
+  .catch(function(error) {
+      console.error("Error al procesar el pago:", error);
+  });
+}
+
+app.post('/cart/pay', auth, async (req, res) => {
+  const userId = req.user.id;
+  const carritoId = await obtenerCarritoUsuario(userId);
+
+  try {
+    // Consulta para obtener todos los productos en el carrito
+    const productosCarritoQuery = `
+          SELECT p.id, p.nombre, p.precio, p.imagen_url, cp.cantidad, (p.precio * cp.cantidad) AS total_producto, p.stock
+          FROM carrito_productos cp
+          JOIN productos p ON cp.producto_id = p.id
+          WHERE cp.carrito_id = $1
+      `;
+    const productosCarrito = await sql(productosCarritoQuery, [carritoId]);
+
+    // Calcular el precio total de los productos en el carrito
+    const totalPrice = productosCarrito.reduce((total, item) => total + item.total_producto, 0);
+
+    // **Verificar si el usuario tiene saldo suficiente para cubrir el precio total**
+    if (req.user.monto < totalPrice) {
+      console.log("Saldo insuficiente para realizar la compra.");
+      return res.status(400).json({ error: "Saldo insuficiente para realizar la compra." });
+    }
+
+    // Verificar stock suficiente para cada producto
+    for (const item of productosCarrito) {
+      if (item.cantidad > item.stock) {
+        console.log(`Stock insuficiente para el producto: ${item.nombre}`);
+        return res.redirect(`/checkout?failed=Producto "${item.nombre}" no tiene suficiente stock`);
+      }
+    }
+
+    // Si el saldo y el stock son suficientes, proceder con la compra
+    const updateWalletQuery = `UPDATE wallet SET monto = monto - $1 WHERE user_id = $2 RETURNING monto`;
+    const newMontoResult = await sql(updateWalletQuery, [totalPrice, userId]);
+    const newMonto = newMontoResult[0].monto;
+
+    // Actualizar el token con el nuevo monto
+    const updatedToken = jwt.sign(
+      { id: req.user.id, name: req.user.name, role: req.user.role, monto: newMonto, exp: req.user.exp },
+      CLAVE_SECRETA
+    );
+    res.cookie(AUTH_COOKIE_NAME, updatedToken, { maxAge: 60 * 5 * 1000 });
+
+    // Actualizar stock en la tabla productos
+    for (const item of productosCarrito) {
+      const updateStockQuery = `UPDATE productos SET stock = stock - $1 WHERE id = $2`;
+      await sql(updateStockQuery, [item.cantidad, item.id]);
+    }
+
+    // Guardar el recibo en la base de datos
+    const insertReceiptQuery = `
+      INSERT INTO recibos (usuario_id, fecha, monto)
+      VALUES ($1, NOW(), $2)
+    `;
+    await sql(insertReceiptQuery, [userId, totalPrice]);
+
+    // Vaciar el carrito
+    const emptyCartQuery = `DELETE FROM carrito_productos WHERE carrito_id = $1`;
+    await sql(emptyCartQuery, [carritoId]);
+
+    console.log("Compra realizada con éxito. Carrito vacío.");
+    return res.redirect('/checkout?success=COMPRA REALIZADA');
+  } catch (error) {
+    console.error("Error al procesar el pago:", error);
+    res.status(500).send("Error al procesar el pago");
+  }
+});
+
+// Lista de recibos
+app.get('/recibos', auth, async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    // Consulta para obtener los recibos del usuario
+    const recibosQuery = `
+      SELECT id, fecha, monto
+      FROM recibos
+      WHERE usuario_id = $1
+      ORDER BY fecha DESC
+    `;
+    const recibos = await sql(recibosQuery, [userId]);
+
+    // Renderizar la vista de recibos con los datos obtenidos
+    res.render('recibos', { name: req.user.name, monto: req.user.monto, recibos });
+  } catch (error) {
+    console.error("Error al cargar los recibos:", error);
+    res.redirect('/login');
+  }
+});
+
 
 // Admin - Admin_Perfiles - Admin_Productos
 app.get('/Admin', auth, adminMiddleware, (req, res) => {
@@ -93,7 +351,6 @@ app.get('/formularioedit', async (req, res) => {
   }
 });
 
-
 app.get('/formulariopro', async (req, res) => {
   res.render('formulariopro');
 });
@@ -109,7 +366,7 @@ app.get('/eliminarpro', async (req, res) => {
 
 // Checkout
 app.get('/checkout', (req, res) => {
-  res.render('checkout');
+  res.render('/checkout');
 });
 
 // Login - Register

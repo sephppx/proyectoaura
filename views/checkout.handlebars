@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aura's Checkout</title>
     <link rel="stylesheet" href="/files/css/checkout.css">
+    <style>
+        .listP img {
+            max-width: 100px; /* Ajusta el tamaño según sea necesario */
+            height: auto; /* Mantiene la proporción */
+        }
+    </style>
 </head>
 <body>
     
@@ -14,31 +20,35 @@
 
         <div class="returnCart">
             <div class="container-logo">
-				<h1 class="logo"><a href="/">Seguir Comprando</a></h1>
-                <span class="logo-aura">AURA'S</span>
-			</div>
+                <h1 class="logo"><a href="/">Seguir Comprando</a></h1>
+            </div>
 
             <div class="listP">
                 <h1 class="h">Productos del Carro</h1>
-                <div class="item">
-                    <img src="/files/img/Vinilos/Happier That Ever.jpg" alt="">
-                    <div class="info">
-                        <div class="name">Happier That Ever - Billie Eilish</div>
-                        <div class="price">$42.000</div>
-                    </div>
-                    <div class="quantity">1</div>
-                    <div class="returnPrice">$42.000</div>
-                </div>
-                <div class="item">
-                    <img src="/files/img/Vinilos/Gabriel.jpg" alt="">
-                    <div class="info">
-                        <div class="name">Gabriel - Keshi</div>
-                        <div class="price">$41.000</div>
-                    </div>
-                    <div class="quantity">1</div>
-                    <div class="returnPrice">$41.000</div>
-                </div>
 
+                {{#each productosCarrito}}
+                <div class="item">
+                    {{#if this.imagen_url}} <!-- Verifica si la URL de la imagen existe -->
+                        <img src="{{this.imagen_url}}" alt="{{this.nombre}}" onerror="this.onerror=null; this.src='/images/imagen-no-disponible.jpg'"> <!-- Cambia a una imagen por defecto si falla -->
+                    {{else}}
+                        <img src="/images/imagen-no-disponible.jpg" alt="Imagen no disponible"> <!-- Imagen por defecto -->
+                    {{/if}}
+                    <div class="info">
+                        <div class="name">{{this.nombre}}</div>
+                        <div class="price">${{this.precio}}</div>
+                    </div>
+                    <div class="quantity">Cantidad: {{this.cantidad}}</div>
+                    <div class="returnPrice">${{this.total_producto}}</div>
+
+                    <!-- Formulario para eliminar el producto -->
+                    <form action="/checkout/remove/{{this.id}}" method="POST"> <!-- Cambiado 'producto.id' a 'this.id' -->
+                       <button type="submit">Eliminar</button>
+                    </form>
+                </div>
+                {{else}}
+                    <div>No hay productos en el carrito.</div> <!-- Mensaje si no hay productos -->
+                {{/each}}
+                
             </div>
                 
         </div>
@@ -49,66 +59,119 @@
             <div class="form">
                 <div class="group">
                     <label for="name">Nombre Completo</label>
-                    <input type="text" name="name" id="name">
+                    <input type="text" name="name" id="name" required>
                 </div>
     
                 <div class="group">
-                    <label for="phone">Numero de Celular</label>
-                    <input type="text" name="phone" id="phone">
+                    <label for="phone">Número de Celular</label>
+                    <input type="text" name="phone" id="phone" required>
                 </div>
     
                 <div class="group">
-                    <label for="address">Direccion</label>
-                    <input type="text" name="address" id="address">
+                    <label for="address">Dirección</label>
+                    <input type="text" name="address" id="address" required>
                 </div>
     
                 <div class="group">
-                    <label for="country">Region</label>
-                    <select name="country" id="country">
-                        <option value="">Choose..</option>
-                        <option value="">Arica y Parinacota</option>
-						<option value="">Tarapaca</option>
-						<option value="">Antofagasta</option>
-						<option value="">Atacama</option>
-						<option value="">Coquimbo</option>
-						<option value="">Valparaiso</option>
-						<option value="">Metropolitana</option>
-						<option value="">Libertador Bernardo O'higgins</option>
-						<option value="">Maule</option>
-						<option value="">Ñuble</option>
-						<option value="">BioBio</option>
-						<option value="">Araucania</option>
-						<option value="">Los Rios</option>
-						<option value="">Los Lagos</option>
-						<option value="">Aysen</option>
-						<option value="">Magallanes y Antartica</option>    
+                    <label for="country">Región</label>
+                    <select name="country" id="country" required>
+                        <option value="">Elige..</option>
+                        <option value="Arica y Parinacota">Arica y Parinacota</option>
+                        <option value="Tarapaca">Tarapaca</option>
+                        <option value="Antofagasta">Antofagasta</option>
+                        <option value="Atacama">Atacama</option>
+                        <option value="Coquimbo">Coquimbo</option>
+                        <option value="Valparaiso">Valparaiso</option>
+                        <option value="Metropolitana">Metropolitana</option>
+                        <option value="Libertador Bernardo O'higgins">Libertador Bernardo O'Higgins</option>
+                        <option value="Maule">Maule</option>
+                        <option value="Ñuble">Ñuble</option>
+                        <option value="BioBio">BioBio</option>
+                        <option value="Araucania">Araucania</option>
+                        <option value="Los Rios">Los Rios</option>
+                        <option value="Los Lagos">Los Lagos</option>
+                        <option value="Aysen">Aysen</option>
+                        <option value="Magallanes y Antartica">Magallanes y Antartica</option>    
                     </select>
                 </div>
     
                 <div class="group">
                     <label for="city">Ciudad</label>
-                    <select name="city" id="city">
-                        <option value="">Choose..</option>
-                        <option value="">Santiago</option>
+                    <select name="city" id="city" required>
+                        <option value="">Elige..</option>
+                        <option value="Santiago">Santiago</option>
                     </select>
                 </div>
             </div>
-                <div class="return">
-                    <div class="row">
+
+            <div class="return">
+               <!-- <div class="row">
                     <div>Cantidad Total</div>
-                    <div class="totalQuantity">2</div>
-                    </div>
-                    <div class="row">
+                    <div class="totalQuantity">{{productosCarrito.length}}</div>
+                </div> -->
+                <div class="row">
                     <div>Precio Total</div>
-                    <div class="totalPrice">$83.000</div>
-                    </div>
+                    <div class="totalPrice">${{totalPrice}}</div>
                 </div>
-                <button class="buttonCheckout">Pagar</button>
+            </div>
+
+            <!-- <form action="/checkout" method="POST" onsubmit="return validateForm()">
+                <button class="buttonCheckout" type="submit">Pagar</button>
+            </form> -->
+            <!-- Botón de Pago en tu archivo de vista, por ejemplo, en checkout.handlebars -->
+            {{#if error }}
+            <div class="error-message" style="color: red;">
+                {{error}}
+            </div>
+            {{/if}}
+            <button class="buttonCheckout" onclick="payCart()">Pagar</button>
+
+
+            
         </div>
     </div>
 
+    <script src="checkout.js"></script>
+    <script>
+        function validateForm() {
+            const name = document.getElementById('name').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const address = document.getElementById('address').value.trim();
+            const country = document.getElementById('country').value;
+            const city = document.getElementById('city').value;
 
-        <script src="checkout.js"></script>
+            if (!name || !phone || !address || !country || !city) {
+                alert('Por favor, complete todos los campos requeridos.');
+                return false; // Evita el envío del formulario
+            }
+            return true; // Permite el envío del formulario
+        }
+    </script>
 
-    </body>
+    <script>
+    // Aquí va la función JavaScript payCart
+function payCart() {
+  fetch('/cart/pay', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+      }
+  })
+  .then(function(response) {
+      if (response.ok) {
+          alert("Compra realizada con éxito");
+          // Recargar la página para mostrar el carrito vacío
+          window.location.href = '/checkout';
+      } else {
+          alert("No se pudo realizar la compra, saldo insuficiente o stock insuficiente.");
+      }
+  })
+  .catch(function(error) {
+      console.error("Error al procesar el pago:", error);
+  });
+}
+
+    </script>
+
+</body>
 </html>
