@@ -309,7 +309,9 @@ app.get('/recibos', auth, async (req, res) => {
       WHERE r.usuario_id = $1
       ORDER BY r.fecha DESC
     `;
-    const recibos = await sql(recibosQuery, [userId]);
+    let recibos = await sql(recibosQuery, [userId]);
+    recibos = recibos.map(recibo => ({...recibo, fecha: new Date(recibo.fecha).toLocaleString('es-CL')})) 
+
 
     console.log(recibos); // Verificar el resultado de la consulta
 
