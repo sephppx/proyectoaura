@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Aura's</title>
+    <title>Aura's - Recibos</title>
     <link rel="stylesheet" href="/files/css/recibos.css">
 </head>
 <body>
@@ -68,9 +68,11 @@
                             <div class="info">
                                 <div class="name">Pedido #{{this.id}}</div>
                                 <!-- Formatear la fecha si tienes un helper de fecha disponible -->
-                                <div class="price">{{this.fecha}}</div>
+                                <div class="date">Fecha: {{this.fecha}}</div>
+                                <!-- Mostrar la cantidad total de productos comprados -->
+                                <div class="quantity">Cantidad de productos: {{this.cantidad}}</div>
                             </div>
-                            <div class="returnPrice">$ {{this.monto}}</div>
+                            <div class="returnPrice">Monto: ${{this.monto}}</div>
                         </div>
                     {{/each}}
                 {{else}}
@@ -88,7 +90,7 @@
                     <p class="title-footer">Información de Contacto</p>
                     <ul>
                         <li>
-                            Dirección: Av. Ejercito libertador 441, Santiago, Region Metropolitana.
+                            Dirección: Av. Ejercito libertador 441, Santiago, Región Metropolitana.
                         </li>
                         <li>Teléfono: 800 666 212</li>
                         <li>Email: aurasvinyls@support.com</li>
@@ -117,9 +119,9 @@
                     <ul>
                         <li><a href="#">Acerca de Nosotros</a></li>
                         <li><a href="#">Información Delivery</a></li>
-                        <li><a href="#">Politicas de Privacidad</a></li>
+                        <li><a href="#">Políticas de Privacidad</a></li>
                         <li><a href="#">Términos y condiciones</a></li>
-                        <li><a href="#">Contactános</a></li>
+                        <li><a href="#">Contáctanos</a></li>
                     </ul>
                 </div>
 
@@ -127,7 +129,7 @@
                     <p class="title-footer">Mi cuenta</p>
                     <ul>
                         <li><a href="#">Mi cuenta</a></li>
-                        <li><a href="#">Historial de ordenes</a></li>
+                        <li><a href="#">Historial de órdenes</a></li>
                         <li><a href="#">Lista de deseos</a></li>
                         <li><a href="#">Boletín</a></li>
                         <li><a href="#">Reembolsos</a></li>

@@ -232,7 +232,10 @@ app.post('/cart/pay', auth, async (req, res) => {
     // Calcular el precio total de los productos en el carrito
     const totalPrice = productosCarrito.reduce((total, item) => total + item.total_producto, 0);
 
-    // **Verificar si el usuario tiene saldo suficiente para cubrir el precio total**
+    // **Calcular la cantidad total de productos comprados**
+    const totalQuantity = productosCarrito.reduce((total, item) => total + item.cantidad, 0);
+
+    // Verificar si el usuario tiene saldo suficiente para cubrir el precio total
     if (req.user.monto < totalPrice) {
       console.log("Saldo insuficiente para realizar la compra.");
       return res.status(400).json({ error: "Saldo insuficiente para realizar la compra." });
@@ -247,6 +250,7 @@ app.post('/cart/pay', auth, async (req, res) => {
     }
 
     // Si el saldo y el stock son suficientes, proceder con la compra
+    // Actualizar el saldo en la wallet
     const updateWalletQuery = `UPDATE wallet SET monto = monto - $1 WHERE user_id = $2 RETURNING monto`;
     const newMontoResult = await sql(updateWalletQuery, [totalPrice, userId]);
     const newMonto = newMontoResult[0].monto;
@@ -264,17 +268,21 @@ app.post('/cart/pay', auth, async (req, res) => {
       await sql(updateStockQuery, [item.cantidad, item.id]);
     }
 
-    // Guardar el recibo en la base de datos
-    const insertReceiptQuery = `
-      INSERT INTO recibos (usuario_id, fecha, monto)
-      VALUES ($1, NOW(), $2)
-    `;
-    await sql(insertReceiptQuery, [userId, totalPrice]);
-
-    // Vaciar el carrito
+    // Vaciar el carrito si se ha pagado completamente
     const emptyCartQuery = `DELETE FROM carrito_productos WHERE carrito_id = $1`;
     await sql(emptyCartQuery, [carritoId]);
 
+    // **Insertar un recibo en la base de datos con la cantidad total**
+    const insertarReciboQuery = `
+      INSERT INTO recibos (usuario_id, fecha, monto, cantidad)
+      VALUES ($1, CURRENT_DATE, $2, $3)
+    `;
+    await sql(insertarReciboQuery, [userId, totalPrice, totalQuantity]);
+
+    console.log("Productos en el carrito:", productosCarrito);
+    console.log("Total de productos:", totalQuantity);
+    console.log("Total a pagar:", totalPrice);
+    
     console.log("Compra realizada con éxito. Carrito vacío.");
     return res.redirect('/checkout?success=COMPRA REALIZADA');
   } catch (error) {
@@ -304,7 +312,6 @@ app.get('/recibos', auth, async (req, res) => {
     res.redirect('/login');
   }
 });
-
 
 // Admin - Admin_Perfiles - Admin_Productos
 app.get('/Admin', auth, adminMiddleware, (req, res) => {
