@@ -172,6 +172,25 @@ a {
     font-weight: bold;
 }
 
+/* Estilo para el botón */
+.remove-button {
+    background-color: var(--primary-color); /* Color de fondo */
+    color: var(--background-color); /* Color del texto */
+    border: 2px solid black; /* Borde negro */
+    padding: 5px 10px; /* Espaciado interno (más pequeño) */
+    cursor: pointer; /* Cambia el cursor al pasar el mouse */
+    font-size: 14px; /* Tamaño de fuente (más pequeño) */
+    transition: color 0.3s; /* Transición suave para el cambio de color */
+    border-radius: 5px; /* Bordes redondeados */
+}
+
+/* Estilo para el botón al pasar el mouse */
+.remove-button:hover,
+.remove-button:focus {
+    color: black; /* Color del texto al pasar el mouse o al presionar */
+}
+
+
 @media (max-width: 768px) {
     .checkoutLayout {
         grid-template-columns: 1fr; /* Una sola columna */

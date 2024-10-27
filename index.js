@@ -54,6 +54,7 @@ app.get('/', auth, async (req, res) => {
   }
 });
 
+
 // Función para obtener el carrito del usuario
 async function obtenerCarritoUsuario(userId) {
   // Consulta para verificar si el usuario tiene un carrito activo
@@ -296,22 +297,30 @@ app.get('/recibos', auth, async (req, res) => {
   try {
     const userId = req.user.id;
 
-    // Consulta para obtener los recibos del usuario
+    // Consulta para obtener cada recibo junto con una imagen de un producto
     const recibosQuery = `
-      SELECT id, fecha, monto
-      FROM recibos
-      WHERE usuario_id = $1
-      ORDER BY fecha DESC
+      SELECT r.id, r.fecha, r.monto, r.cantidad, 
+             (SELECT p.imagen_url 
+              FROM carrito_productos cp 
+              JOIN productos p ON cp.producto_id = p.id 
+              WHERE cp.carrito_id = r.id 
+              LIMIT 1) AS imagen_url
+      FROM recibos r
+      WHERE r.usuario_id = $1
+      ORDER BY r.fecha DESC
     `;
     const recibos = await sql(recibosQuery, [userId]);
 
-    // Renderizar la vista de recibos con los datos obtenidos
+    console.log(recibos); // Verificar el resultado de la consulta
+
+    // Renderizar la vista de recibos con los datos obtenidos, incluyendo una sola imagen_url de un producto
     res.render('recibos', { name: req.user.name, monto: req.user.monto, recibos });
   } catch (error) {
     console.error("Error al cargar los recibos:", error);
     res.redirect('/login');
   }
 });
+
 
 // Admin - Admin_Perfiles - Admin_Productos
 app.get('/Admin', auth, adminMiddleware, (req, res) => {

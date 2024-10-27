@@ -296,6 +296,31 @@ header .totalQuantity{
 	color: #fff;
 }
 
+.headers {
+    display: flex;
+    justify-content: space-between; /* Alinea los elementos de .headers con espacio entre ellos */
+    align-items: center;
+}
+
+.lista {
+    margin-right: auto; /* Asegura que 'Lista de Pedidos' esté a la izquierda */
+}
+
+.cantidad,
+.total {
+    margin: 0 7px; /* Espacio entre 'Cantidad' y 'Total' */
+}
+
+.total {
+    font-feature-settings: "tnum"; /* Opcional: garantiza que los números se alineen */
+}
+
+.total::after {
+    content: '.00'; /* Añade .00 si el estilo requiere estos dígitos */
+    visibility: hidden;
+}
+
+
 /* Pedido */
 
 .container-pedido {

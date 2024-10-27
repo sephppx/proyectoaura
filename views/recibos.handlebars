@@ -9,8 +9,7 @@
     <header>
         <div class="container-hero">
             <div class="container hero">
-                <div class="customer-support">
-                    <img src="/files/img/IMG/Sample_User_Icon.png" width="35px">
+                <div class="customer-support">  
                     <div class="content-customer-support">
                         <span class="text">Hola, {{name}}</span>
                         <span class="number">Wallet: ${{monto}}</span>
@@ -57,22 +56,25 @@
             <div class="container-pedido">
                 <h1 class="pedido"><a href="/">Pedidos</a></h1>
             </div>
-            <h1>Lista de Pedidos</h1>
+            <div class="headers">
+                <h1 class="lista">Lista de Pedidos</h1>
+                <h1 class="cantidad">Cantidad</h1>
+                <h1 class="total">Total</h1>
+            </div>
             <div class="listP">
 
                 {{#if recibos.length}}
                     {{#each recibos}}
                         <div class="item">
                             <!-- Usa una imagen genérica si no tienes una imagen específica para cada recibo -->
-                            <img src="https://w7.pngwing.com/pngs/225/984/png-transparent-computer-icons-shopping-cart-encapsulated-postscript-shopping-cart-angle-black-shopping.png" alt="Imagen de recibo">
+                            <img src="{{this.imagen_url}}" alt="Imagen del producto">
                             <div class="info">
                                 <div class="name">Pedido #{{this.id}}</div>
                                 <!-- Formatear la fecha si tienes un helper de fecha disponible -->
                                 <div class="date">Fecha: {{this.fecha}}</div>
-                                <!-- Mostrar la cantidad total de productos comprados -->
-                                <div class="quantity">Cantidad de productos: {{this.cantidad}}</div>
                             </div>
-                            <div class="returnPrice">Monto: ${{this.monto}}</div>
+                            <div class="quantity">{{this.cantidad}}</div>
+                            <div class="returnPrice">${{this.monto}}</div>
                         </div>
                     {{/each}}
                 {{else}}
