@@ -1,1 +1,1 @@
-﻿# Dinamico "Aura"
+Aura-Dinamico
